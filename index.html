@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLASH CITY BR - Ligas</title>
     <link rel="shortcut icon" href="imagens/Perfil_COC-removebg-preview.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary-gold: #ffcc00;
@@ -25,14 +27,14 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            
-            
+
+
         }
 
         header {
             text-align: center;
             padding: 20px 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
             width: 100%;
         }
 
@@ -91,7 +93,7 @@
             border: 5px solid #000;
             border-radius: 15px;
             padding: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             display: none;
         }
 
@@ -101,8 +103,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h2 {
@@ -122,7 +131,7 @@
         }
 
         .member-item {
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.3);
             padding: 10px 15px;
             border-radius: 8px;
             display: flex;
@@ -141,6 +150,29 @@
             font-weight: 500;
         }
 
+        .avisos {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-align: center;
+        }
+
+        .avisos button {
+            background: var(--dark-wood);
+            border: 3px solid #000;
+            color: white;
+            padding: 12px 25px;
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .avisos button:hover {
+            cursor: pointer;
+            background-color: var(--light-wood);
+            color: var(--primary-gold);
+        }
+
         footer {
             margin-top: auto;
             padding: 40px;
@@ -148,87 +180,91 @@
             opacity: 0.6;
         }
 
-        @media screen and (min-width: 600px){
+        @media screen and (min-width: 600px) {
             body {
                 overflow: hidden;
             }
-        } 
-            
-        
+        }
     </style>
 </head>
+
 <body>
 
-<header>
-    <h1>CLASH CITY BR</h1>
-    <div class="subtitle">Convocação oficial para a Liga de Clãs</div>
-</header>
+    <header>
+        <h1>CLASH CITY BR</h1>
+        <div class="subtitle">Convocação oficial para a Liga de Clãs</div>
+    </header>
 
-<div class="tabs-container">
-    <div class="tabs-menu">
-        <button class="tab-btn active" onclick="openTab(event, 'liga15')">CLASH CITY BR 2</button>
-        <button class="tab-btn" onclick="openTab(event, 'liga30')">CLASH CITY BR 3</button>
-    </div>
+    <div class="tabs-container">
+        <div class="tabs-menu">
+            <button class="tab-btn active" onclick="openTab(event, 'liga15')">CLASH CITY BR 2</button>
+            <button class="tab-btn" onclick="openTab(event, 'liga30')">CLASH CITY BR 3</button>
+        </div>
 
-    <div id="liga15" class="clan-card active">
-        <h2>Escalação: Clan Secundário (15x15)</h2>
-        <ul class="member-list" id="list15">
+        <div id="liga15" class="clan-card active">
+            <h2>Escalação: Clan Secundário (15x15)</h2>
+            <ul class="member-list" id="list15">
             </ul>
-    </div>
+        </div>
 
-    <div id="liga30" class="clan-card">
-        <h2>Escalação: Clan Terciário (15x15)</h2>
-        <ul class="member-list" id="list30">
+        <div id="liga30" class="clan-card">
+            <h2>Escalação: Clan Terciário (15x15)</h2>
+            <ul class="member-list" id="list30">
             </ul>
+        </div>
     </div>
-</div>
+    <div class="avisos">
+        <p>Vá para o clã onde seu nome está, links abaixo!</p>
+        <a href="https://carlosdanidev.github.io/clash-city-br/"><button>Home</button></a>
+    </div>
 
-<footer>
-    © 2026 CLASH CITY BR - Preparados para a Guerra!
-</footer>
+    <footer>
+        © 2026 CLASH CITY BR - Preparados para a Guerra!
+    </footer>
 
-<script>
-    // LISTA DE MEMBROS - EDITE AQUI
-    const membros15 = [
-        "Dking Bacon", "Shuya Goenji", "Zaga-0", "Kyros", "Weller",
-        "Souza", "Nettim", "Rafael", "Xicó", "Zaga-4",
-        "xFrozen", "Marcelo", "Igor", "Chicken Lord", "Ozymandias"
-    ];
+    <script>
+        // LISTA DE MEMBROS - EDITE AQUI
+        const membros15 = [
+            "Dking Bacon", "Shuya Goenji", "Zaga-0", "Kyros", "Weller",
+            "Souza", "Nettim", "Rafael", "Xicó", "Zaga-4",
+            "xFrozen", "Marcelo", "Igor", "Chicken Lord", "Ozymandias"
+        ];
 
-    const membros30 = [
-        "caarlos", "Cuffi", "Dununes", "Rayleigh", "preot", "Aizen",
-        "crane chasseur", "J.Couto", "Victor Hugo", "Marianinho", "Seto Kaiba", "Manopla de Bronze",
-        "Zed the Dog", "VitinDoGrau", "Zaga-1"
-    ];
+        const membros30 = [
+            "caarlos", "Cuffi", "Dununes", "Rayleigh", "preot", "Aizen",
+            "crane chasseur", "J.Couto", "Victor Hugo", "Marianinho", "Seto Kaiba", "Manopla de Bronze",
+            "Zed the Dog", "VitinDoGrau", "Zaga-1"
+        ];
 
-    function renderList(listId, data) {
-        const listElement = document.getElementById(listId);
-        listElement.innerHTML = data.map((name, index) => `
+        function renderList(listId, data) {
+            const listElement = document.getElementById(listId);
+            listElement.innerHTML = data.map((name, index) => `
             <li class="member-item">
                 <span class="member-num">${index + 1}</span>
                 <span class="member-name">${name}</span>
             </li>
         `).join('');
-    }
-
-    function openTab(evt, tabName) {
-        let i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("clan-card");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].classList.remove("active");
         }
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].classList.remove("active");
-        }
-        document.getElementById(tabName).classList.add("active");
-        evt.currentTarget.classList.add("active");
-    }
 
-    // Inicializar as listas
-    renderList('list15', membros15);
-    renderList('list30', membros30);
-</script>
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("clan-card");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Inicializar as listas
+        renderList('list15', membros15);
+        renderList('list30', membros30);
+    </script>
 
 </body>
+
 </html>
