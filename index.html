@@ -1,271 +1,282 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLASH CITY BR - Ligas</title>
+    <title>Família Clash City BR | Convocação</title>
     <link rel="shortcut icon" href="imagens/Perfil_COC-removebg-preview.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #f9d246;
-            --secondary: #077187;
-            --dark: #11032c;
-            --light: #ffffff;
-            --glass: rgba(255, 255, 255, 0.92);
+            --primary-blue: #11032c; 
+            --bg-light: #eef2ff;    
+            --gold: #f9d246;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Lexend', sans-serif;
-            background: linear-gradient(135deg, #11032c 0%, #077187 100%);
-            color: var(--dark);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding-bottom: 50px;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--primary-blue);
         }
 
-        header {
+        /* --- MENU SUPERIOR --- */
+        nav {
+            background-color: #000;
+            padding: 20px 0;
             text-align: center;
-            padding: 40px 20px;
-            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        h1 {
-            font-weight: 800;
-            font-size: clamp(2rem, 8vw, 3.5rem);
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            margin: 0;
-        }
-
-        .subtitle {
-            font-size: 1rem;
-            opacity: 0.8;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Tabs Moderna */
-        .tabs-container {
-            width: 90%;
-            max-width: 900px;
-            margin-top: 20px;
-        }
-
-        .tabs-menu {
+        nav ul {
+            list-style: none;
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover { color: var(--gold); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('imagens/desktop-wallpaper-clash-royale-all-superior-clash-royale-background-princess-clash-royale.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* --- SEÇÃO DA LISTA --- */
+        .convocacao-section {
+            padding: 60px 5%;
+            text-align: center;
+        }
+
+        .convocacao-section h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 40px;
+            color: var(--primary-blue);
+        }
+
+        .tabs {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
         }
 
         .tab-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 12px 20px;
-            font-weight: 600;
+            background-color: var(--primary-blue);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 5px;
             cursor: pointer;
-            border-radius: 30px; /* Botões arredondados */
+            text-transform: uppercase;
             transition: 0.3s;
         }
 
         .tab-btn.active {
-            background: var(--primary);
-            color: var(--dark);
-            border-color: var(--primary);
-            transform: translateY(-3px);
+            background-color: var(--gold);
+            color: var(--primary-blue);
+            box-shadow: 0 4px 15px rgba(249, 210, 70, 0.3);
         }
 
-        /* Card de Lista estilo Vidro */
-        .clan-card {
-            background: var(--glass);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            display: none;
-            backdrop-filter: blur(10px);
-        }
-
-        .clan-card.active {
-            display: block;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            font-weight: 800;
-            color: var(--secondary);
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 1.5rem;
-            border-bottom: 2px solid rgba(7, 113, 135, 0.1);
-            padding-bottom: 10px;
-        }
-
-        .member-list {
-            list-style: none;
-            padding: 0;
+        .lista-nomes {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .member-item {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
+        .nome-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-weight: 700;
+            text-align: left;
             display: flex;
             align-items: center;
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: 0.2s;
+            transition: 0.3s;
         }
 
-        .member-item:hover {
-            border-color: var(--secondary);
-            transform: scale(1.03);
+        .nome-card:hover {
+            transform: scale(1.02);
+            border-left: 5px solid var(--gold);
         }
 
-        .member-num {
-            font-weight: 800;
-            color: var(--secondary);
-            margin-right: 12px;
-            font-size: 0.9rem;
-            background: rgba(7, 113, 135, 0.1);
-            width: 25px;
-            height: 25px;
+        .num {
+            color: var(--gold);
+            background: var(--primary-blue);
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            margin-right: 15px;
+            font-size: 0.8rem;
+            font-weight: 900;
         }
 
-        .member-name {
-            font-weight: 600;
-            color: var(--dark);
+        /* --- MENSAGEM E LINKS --- */
+        .info-pos-lista {
+            margin-top: 50px;
+            padding: 40px 20px;
+            background: #fff;
+            border-radius: 15px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px dashed var(--gold);
         }
 
-        .avisos {
-            margin-top: 30px;
-            text-align: center;
-            color: white;
+        .msg-alerta {
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #b71c1c;
+            text-transform: uppercase;
         }
 
-        .btn-home {
+        .link-cla {
             display: inline-block;
-            margin-top: 15px;
-            background: var(--primary);
-            color: var(--dark);
-            padding: 12px 35px;
+            background-color: var(--primary-blue);
+            color: var(--gold);
+            padding: 18px 45px;
             text-decoration: none;
-            font-weight: 800;
-            border-radius: 10px;
+            font-weight: 900;
+            border-radius: 50px;
+            text-transform: uppercase;
             transition: 0.3s;
+            letter-spacing: 1px;
         }
 
-        .btn-home:hover {
-            background: white;
-            transform: scale(1.05);
+        .link-cla:hover {
+            transform: translateY(-3px);
+            background-color: var(--gold);
+            color: var(--primary-blue);
+            box-shadow: 0 8px 20px rgba(249, 210, 70, 0.4);
         }
 
         footer {
-            margin-top: 40px;
-            padding: 20px;
+            background-color: #000;
+            color: #fff;
+            padding: 40px;
+            text-align: center;
             font-size: 0.8rem;
-            color: white;
-            opacity: 0.6;
+            margin-top: 80px;
         }
 
-        @media screen and (max-width: 600px) {
-            .member-list { grid-template-columns: 1fr; }
-            .tabs-menu { flex-direction: column; align-items: stretch; }
+        @media (max-width: 768px) {
+            .tabs { flex-direction: column; }
+            .link-cla { width: 100%; font-size: 0.9rem; }
         }
     </style>
 </head>
-
 <body>
 
-    <header>
-        <h1>CLASH CITY BR</h1>
-        <div class="subtitle">Convocação oficial - Guerra de Ligas</div>
+    <nav>
+        <ul>
+            <li><a href="https://clashcitybr.github.io/">HOME</a></li>
+            <li><a href="https://clashcitybr.github.io/controle-cla/">DESEMPENHO</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Convocação CWL</h1>
+        <p>Abaixo, confira a escalação tática da nossa elite para as batalhas.</p>
     </header>
 
-    <div class="tabs-container">
-        <div class="tabs-menu">
-            <button class="tab-btn active" onclick="openTab(event, 'liga15')">CLASH CITY BR 2</button>
-            <button class="tab-btn" onclick="openTab(event, 'liga30')">CLASH CITY BR 3</button>
+    <main class="convocacao-section">
+        <h2>Nossas Listas</h2>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="mostrarLista(event, 'principal')">Escalação Principal</button>
+            <button class="tab-btn" onclick="mostrarLista(event, 'clã3')">Escalação Clã 3</button>
         </div>
 
-        <div id="liga15" class="clan-card active">
-            <h2>Escalação: (15 x 15)</h2>
-            <ul class="member-list" id="list15"></ul>
-        </div>
+        <div id="containerListas" class="lista-nomes"></div>
 
-        <div id="liga30" class="clan-card">
-            <h2>Escalação: (15 x 15)</h2>
-            <ul class="member-list" id="list30"></ul>
+        <div class="info-pos-lista">
+            <p class="msg-alerta">Atenção Guerreiro!</p>
+            <p style="margin-bottom: 20px; font-weight: 600;">Se o seu nome está na lista acima, apresente-se imediatamente ao seu clã designado.</p>
+            <div id="containerLink"></div>
         </div>
-    </div>
-
-    <div class="avisos">
-        <p>Apresente-se no clã indicado para a guerra!</p>
-        <a href="https://clashcitybr.github.io/" class="btn-home">Voltar para Home</a>
-    </div>
+    </main>
 
     <footer>
-        © 2026 CLASH CITY BR - Preparados para a Guerra!
+        <p>Família Clash City BR © desde 2017.</p>
     </footer>
 
     <script>
-        const membros15 = [
-            "Dking Bacon", "Shuya Goenji", "Zaga-0", "Kyros", "Weller",
-            "Souza", "Nettim", "Rafael", "Xicó", "Zaga-4",
-            "xFrozen", "Marcelo", "Igor", "Chicken Lord", "Ozymandias"
-        ];
+        const dadosListas = {
+            'principal': {
+                nomeExibicao: "Principal",
+                membros: ["Dking Bacon", "Shuya Goenji", "Zaga-0", "Kyros", "Weller", "Souza", "Nettim", "Victor Hugo", "Xicó", "Zaga-4", "xFrozen", "caarlos", "J.Couto", "Chicken Lord", "Seto Kaiba"],
+                link: "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=TAG_PRINCIPAL"
+            },
+            'clã3': {
+                nomeExibicao: "Clã 3",
+                membros: ["Marcelo", "Cuffi", "Zed the Dog" , "Rayleigh", "preot", "Aizen", "crane chasseur", "Igor", "Rafael", "Marianinho", "Ozymandias", "Manopla de Bronze", "Vitu", "VitinDoGrau", "Yuca"],
+                link: "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=TAG_CLA3"
+            }
+        };
 
-        const membros30 = [
-            "caarlos", "Cuffi", "Dununes", "Rayleigh", "preot", "Aizen",
-            "crane chasseur", "J.Couto", "Victor Hugo", "Marianinho", "Seto Kaiba", "Manopla de Bronze",
-            "Zed the Dog", "VitinDoGrau", "Zaga-1"
-        ];
+        function mostrarLista(e, idCla) {
+            // Atualiza botões
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(e) e.target.classList.add('active');
 
-        function renderList(listId, data) {
-            const listElement = document.getElementById(listId);
-            listElement.innerHTML = data.map((name, index) => `
-            <li class="member-item">
-                <span class="member-num">${index + 1}</span>
-                <span class="member-name">${name}</span>
-            </li>
-        `).join('');
+            const container = document.getElementById('containerListas');
+            const linkContainer = document.getElementById('containerLink');
+            const dados = dadosListas[idCla];
+
+            // Renderiza lista
+            container.innerHTML = dados.membros.map((nome, index) => `
+                <div class="nome-card">
+                    <span class="num">${index + 1}</span>
+                    <span class="nome">${nome}</span>
+                </div>
+            `).join('');
+
+            // Renderiza o botão de entrada com o nome correto
+            linkContainer.innerHTML = `
+                <a href="${dados.link}" target="_blank" class="link-cla">Entrar no ${dados.nomeExibicao} agora</a>
+            `;
         }
 
-        function openTab(evt, tabName) {
-            let i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("clan-card");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
-
-        renderList('list15', membros15);
-        renderList('list30', membros30);
+        // Início padrão
+        mostrarLista(null, 'principal');
     </script>
-
 </body>
 </html>
