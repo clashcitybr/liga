@@ -221,8 +221,9 @@
         <h2>Nossas Listas</h2>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="mostrarLista(event, 'principal')">CLASH CITY BR 2</button>
-            <button class="tab-btn" onclick="mostrarLista(event, 'clã3')">Escalação Clã 3</button>
+            <button class="tab-btn" onclick="mostrarLista(event, 'principal')">CLASH CITY BR</button>
+            <button class="tab-btn active" onclick="mostrarLista(event, 'clã2')">CLASH CITY BR 2</button>
+            <button class="tab-btn" onclick="mostrarLista(event, 'clã3')">CLASH CITY BR 3</button>
         </div>
 
         <div id="containerListas" class="lista-nomes"></div>
@@ -241,12 +242,17 @@
     <script>
         const dadosListas = {
             'principal': {
+                nomeExibicao: "CLASH CITY BR",
+                membros: ["OFF"],
+                link: "https://link.clashofclans.com/pt/?action=OpenClanProfile&tag=GUPJU0L2"
+            },
+             'clã2': {
                 nomeExibicao: "CLASH CITY BR 2",
                 membros: ["Dking Bacon", "Shuya Goenji", "Zaga-0", "Kyros", "xFrozen", "Weller", "Nettim", "Victor Hugo", "Rayleigh", "Zaga-4", "VitinDoGrau", "crâne chasseur", "Igor", "Chicken Lord", "Seto Kaiba", "Zed the Dog"],
                 link: "https://link.clashofclans.com/pt/?action=OpenClanProfile&tag=2LQY9RYV0"
             },
             'clã3': {
-                nomeExibicao: "Clã 3",
+                nomeExibicao: "CLASH CITY BR 3",
                 membros: ["OFF"],
                 link: "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=#2JY8QGQC8"
             }
