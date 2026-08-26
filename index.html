@@ -3,27 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Família Clash City BR | Convocação</title>
+    <title>Clash City BR - Liga de Guerra (CWL)</title>
+
+    <meta name="description" content="Convocação da Liga de Guerra (CWL) da Família Clash City BR — confira a escalação tática dos três clãs e apresente-se ao seu clã designado.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://clashcitybr.github.io/liga/">
+    <meta property="og:title" content="Clash City BR - Liga de Guerra (CWL)">
+    <meta property="og:description" content="Convocação da Liga de Guerra (CWL) da Família Clash City BR — confira a escalação tática dos três clãs.">
+    <meta property="og:image" content="https://clashcitybr.github.io/estilos/Imagens/Clashcity.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Clash City BR - Liga de Guerra (CWL)">
+    <meta name="twitter:description" content="Convocação da Liga de Guerra (CWL) da Família Clash City BR — confira a escalação tática dos três clãs.">
+    <meta name="twitter:image" content="https://clashcitybr.github.io/estilos/Imagens/Clashcity.png">
+
     <link rel="shortcut icon" href="imagens/Perfil_COC-removebg-preview.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #11032c; 
-            --bg-light: #eef2ff;    
-            --gold: #f9d246;
+            --primary: #f9d246;
+            --secondary: #077187;
+            --dark: #11032c;
+            --light: #ffffff;
+            --accent: #6aa5ed;
+            --bg-body: #f0f2f5;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--primary-blue);
+            font-family: 'Lexend', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--dark);
         }
 
         /* --- MENU SUPERIOR --- */
         nav {
-            background-color: #000;
+            background-color: var(--dark);
             padding: 20px 0;
             text-align: center;
             position: sticky;
@@ -42,17 +60,25 @@
             color: #fff;
             text-decoration: none;
             font-size: 0.75rem;
-            font-weight: 900;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
         }
 
-        nav a:hover { color: var(--gold); }
+        nav a:hover { color: var(--primary); }
+
+        nav a.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
 
         /* --- HERO SECTION --- */
         .hero {
             height: 60vh;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+            background: linear-gradient(rgba(17,3,44,0.55), rgba(7,113,135,0.45)),
                         url('imagens/desktop-wallpaper-clash-royale-all-superior-clash-royale-background-princess-clash-royale.jpg') center/cover no-repeat;
             display: flex;
             flex-direction: column;
@@ -80,7 +106,7 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 40px;
-            color: var(--primary-blue);
+            color: var(--dark);
         }
 
         .tabs {
@@ -91,7 +117,7 @@
         }
 
         .tab-btn {
-            background-color: var(--primary-blue);
+            background-color: var(--dark);
             color: #fff;
             border: none;
             padding: 12px 30px;
@@ -103,8 +129,8 @@
         }
 
         .tab-btn.active {
-            background-color: var(--gold);
-            color: var(--primary-blue);
+            background: linear-gradient(135deg, var(--primary) 0%, #f3b13a 100%);
+            color: var(--dark);
             box-shadow: 0 4px 15px rgba(249, 210, 70, 0.3);
         }
 
@@ -130,12 +156,12 @@
 
         .nome-card:hover {
             transform: scale(1.02);
-            border-left: 5px solid var(--gold);
+            border-left: 5px solid var(--primary);
         }
 
         .num {
-            color: var(--gold);
-            background: var(--primary-blue);
+            color: var(--primary);
+            background: var(--dark);
             width: 30px;
             height: 30px;
             display: flex;
@@ -157,7 +183,7 @@
             margin-left: auto;
             margin-right: auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 2px dashed var(--gold);
+            border: 2px dashed var(--primary);
         }
 
         .msg-alerta {
@@ -170,8 +196,8 @@
 
         .link-cla {
             display: inline-block;
-            background-color: var(--primary-blue);
-            color: var(--gold);
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+            color: var(--primary);
             padding: 18px 45px;
             text-decoration: none;
             font-weight: 900;
@@ -183,13 +209,13 @@
 
         .link-cla:hover {
             transform: translateY(-3px);
-            background-color: var(--gold);
-            color: var(--primary-blue);
+            background: var(--primary);
+            color: var(--dark);
             box-shadow: 0 8px 20px rgba(249, 210, 70, 0.4);
         }
 
         footer {
-            background-color: #000;
+            background-color: var(--dark);
             color: #fff;
             padding: 40px;
             text-align: center;
@@ -207,8 +233,9 @@
 
     <nav>
         <ul>
-            <li><a href="https://clashcitybr.github.io/">HOME</a></li>
-            <li><a href="https://clashcitybr.github.io/controle-cla/">DESEMPENHO</a></li>
+            <li><a href="https://clashcitybr.github.io/">Home</a></li>
+            <li><a href="https://clashcitybr.github.io/liga/" class="active">Liga</a></li>
+            <li><a href="https://clashcitybr.github.io/controle-cla/">Desempenho</a></li>
         </ul>
     </nav>
 
@@ -254,7 +281,7 @@
             'clã3': {
                 nomeExibicao: "CLASH CITY BR 3",
                 membros: ["OFF"],
-                link: "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=#2JY8QGQC8"
+                link: "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=2JY8QGQC8"
             }
         };
 
