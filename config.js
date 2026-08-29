@@ -1,1 +1,1 @@
-const BACKEND_URL = "http://163.176.63.240:3333";
+const BACKEND_URL = "https://cork-dice-gala.ngrok-free.dev";
