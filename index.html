@@ -941,16 +941,16 @@
     }
 }
 
-        async function carregarTodosMembros() {
-            try {
-                const resp = await fetch(`${BACKEND}/membros`, { headers: HEADERS });
-                todosMembrosBanco = await resp.json();
-                todosMembrosBanco.sort((a, b) => a.nome.localeCompare(b.nome));
-                renderizarListasAdmin();
-            } catch (e) {
-                console.error("Erro ao carregar membros:", e);
-            }
-        }
+      async function carregarTodosMembros() {
+    try {
+        const resp = await fetch(`${BACKEND}/membros-cla`, { headers: HEADERS });
+        todosMembrosBanco = await resp.json();
+        todosMembrosBanco.sort((a, b) => a.nome.localeCompare(b.nome));
+        renderizarListasAdmin();
+    } catch (e) {
+        console.error("Erro ao carregar membros:", e);
+    }
+}
 
         async function carregarConvocacoesAdmin() {
             for (const cla of ['principal', 'cla2', 'cla3']) {
