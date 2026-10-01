@@ -915,35 +915,30 @@
             panel.classList.toggle('open');
         }
 
-        async function fazerLogin() {
-            const senha = document.getElementById('adminSenha').value;
-            try {
-                const resp = await fetch(`${BACKEND}/cwl/principal`, {
-                    headers: { ...HEADERS, 'x-admin-key': senha }
-                });
-                // Testa autenticação tentando salvar algo vazio de forma silenciosa
-                const testResp = await fetch(`${BACKEND}/cwl/principal`, {
-                    method: 'POST',
-                    headers: { ...HEADERS, 'Content-Type': 'application/json', 'x-admin-key': senha },
-                    body: JSON.stringify({ membros: [], tamanho: 15 })
-                });
+       async function fazerLogin() {
+    const senha = document.getElementById('adminSenha').value;
+    try {
+        const resp = await fetch(`${BACKEND}/fechar-temporada`, {
+            method: 'POST',
+            headers: { ...HEADERS, 'x-admin-key': senha }
+        });
 
-                if (testResp.status === 401) {
-                    document.getElementById('loginErro').style.display = 'block';
-                    return;
-                }
-
-                adminSenha = senha;
-                document.getElementById('loginErro').style.display = 'none';
-                document.getElementById('adminLogin').style.display = 'none';
-                document.getElementById('adminContent').classList.add('visible');
-
-                await carregarTodosMembros();
-                await carregarConvocacoesAdmin();
-            } catch (e) {
-                document.getElementById('loginErro').style.display = 'block';
-            }
+        if (resp.status === 401) {
+            document.getElementById('loginErro').style.display = 'block';
+            return;
         }
+
+        adminSenha = senha;
+        document.getElementById('loginErro').style.display = 'none';
+        document.getElementById('adminLogin').style.display = 'none';
+        document.getElementById('adminContent').classList.add('visible');
+
+        await carregarTodosMembros();
+        await carregarConvocacoesAdmin();
+    } catch (e) {
+        document.getElementById('loginErro').style.display = 'block';
+    }
+}
 
         async function carregarTodosMembros() {
             try {
