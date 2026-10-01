@@ -916,15 +916,14 @@
             panel.classList.toggle('open');
         }
 
-       async function fazerLogin() {
+      async function fazerLogin() {
     const senha = document.getElementById('adminSenha').value;
     try {
-        const resp = await fetch(`${BACKEND}/fechar-temporada`, {
-            method: 'POST',
+        const resp = await fetch(`${BACKEND}/admin/verificar`, {
             headers: { ...HEADERS, 'x-admin-key': senha }
         });
 
-        if (resp.status === 401) {
+        if (!resp.ok) {
             document.getElementById('loginErro').style.display = 'block';
             return;
         }
@@ -940,7 +939,6 @@
         document.getElementById('loginErro').style.display = 'block';
     }
 }
-
       async function carregarTodosMembros() {
     try {
         const resp = await fetch(`${BACKEND}/membros-cla`, { headers: HEADERS });
