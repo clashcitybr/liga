@@ -1,23 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clash City BR - Liga de Guerra (CWL)</title>
-
-    <meta name="description" content="Convocação da Liga de Guerra (CWL) da Família Clash City BR — confira a escalação tática dos três clãs e apresente-se ao seu clã designado.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://clashcitybr.github.io/liga/">
-    <meta property="og:title" content="Clash City BR - Liga de Guerra (CWL)">
-    <meta property="og:description" content="Convocação da Liga de Guerra (CWL) da Família Clash City BR — confira a escalação tática dos três clãs.">
-    <meta property="og:image" content="https://clashcitybr.github.io/estilos/Imagens/Clashcity.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Clash City BR - Liga de Guerra (CWL)">
-    <meta name="twitter:description" content="Convocação da Liga de Guerra (CWL) da Família Clash City BR — confira a escalação tática dos três clãs.">
-    <meta name="twitter:image" content="https://clashcitybr.github.io/estilos/Imagens/Clashcity.png">
-
-    <link rel="shortcut icon" href="imagens/Perfil_COC-removebg-preview.png" type="image/x-icon">
-
+    <meta name="description"
+        content="Convocação da Liga de Guerra (CWL) da Família Clash City BR — confira a escalação tática dos três clãs.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -31,7 +20,11 @@
             --bg-body: #f0f2f5;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Lexend', sans-serif;
@@ -39,7 +32,6 @@
             color: var(--dark);
         }
 
-        /* --- MENU SUPERIOR --- */
         nav {
             background-color: var(--dark);
             padding: 20px 0;
@@ -68,18 +60,18 @@
             transition: 0.3s;
         }
 
-        nav a:hover { color: var(--primary); }
+        nav a:hover {
+            color: var(--primary);
+        }
 
         nav a.active {
             color: var(--primary);
             border-bottom-color: var(--primary);
         }
 
-        /* --- HERO SECTION --- */
         .hero {
             height: 60vh;
-            background: linear-gradient(rgba(17,3,44,0.55), rgba(7,113,135,0.45)),
-                        url('imagens/desktop-wallpaper-clash-royale-all-superior-clash-royale-background-princess-clash-royale.jpg') center/cover no-repeat;
+            background: linear-gradient(rgba(17, 3, 44, 0.55), rgba(7, 113, 135, 0.45)), url('imagens/desktop-wallpaper-clash-royale-all-superior-clash-royale-background-princess-clash-royale.jpg') center/cover no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -93,10 +85,9 @@
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 900;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- SEÇÃO DA LISTA --- */
         .convocacao-section {
             padding: 60px 5%;
             text-align: center;
@@ -126,6 +117,7 @@
             cursor: pointer;
             text-transform: uppercase;
             transition: 0.3s;
+            font-family: 'Lexend', sans-serif;
         }
 
         .tab-btn.active {
@@ -146,17 +138,19 @@
             background: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             font-weight: 700;
             text-align: left;
             display: flex;
             align-items: center;
             transition: 0.3s;
+            cursor: pointer;
+            border-left: 5px solid transparent;
         }
 
         .nome-card:hover {
             transform: scale(1.02);
-            border-left: 5px solid var(--primary);
+            border-left-color: var(--primary);
         }
 
         .num {
@@ -171,9 +165,23 @@
             margin-right: 15px;
             font-size: 0.8rem;
             font-weight: 900;
+            flex-shrink: 0;
         }
 
-        /* --- MENSAGEM E LINKS --- */
+        .nome-info {
+            flex: 1;
+        }
+
+        .nome-info .nome {
+            font-size: 0.95rem;
+        }
+
+        .nome-info .cv-mini {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 2px;
+        }
+
         .info-pos-lista {
             margin-top: 50px;
             padding: 40px 20px;
@@ -182,7 +190,7 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             border: 2px dashed var(--primary);
         }
 
@@ -214,6 +222,399 @@
             box-shadow: 0 8px 20px rgba(249, 210, 70, 0.4);
         }
 
+        .tamanho-info {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* MODAL DE PERFIL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-box span {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-box p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .btn-perfil {
+            display: block;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 800;
+            text-align: center;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-perfil:hover {
+            background: #f3b13a;
+        }
+
+        .cv-tag {
+            background: var(--dark);
+            color: var(--primary);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 6px;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* PAINEL ADMIN */
+        .admin-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+
+        .btn-admin {
+            background: var(--dark);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Lexend', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 10px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .btn-admin:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 380px;
+            height: 100vh;
+            background: var(--dark);
+            color: #fff;
+            z-index: 3000;
+            overflow-y: auto;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+
+        .admin-panel.open {
+            display: block;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .admin-header h3 {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .btn-fechar-admin {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .admin-login {
+            padding: 20px 0;
+        }
+
+        .admin-login input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-family: 'Lexend', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Lexend', sans-serif;
+        }
+
+        .admin-content {
+            display: none;
+        }
+
+        .admin-content.visible {
+            display: block;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .admin-tab {
+            flex: 1;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-family: 'Lexend', sans-serif;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .admin-tab.active {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .admin-cla-section {
+            display: none;
+        }
+
+        .admin-cla-section.active {
+            display: block;
+        }
+
+        .admin-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .tamanho-select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-family: 'Lexend', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .tamanho-select option {
+            background: var(--dark);
+        }
+
+        .membros-lista-admin {
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .membro-admin-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .membro-admin-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .membro-admin-item.selecionado {
+            background: rgba(249, 210, 70, 0.15);
+            border: 1px solid rgba(249, 210, 70, 0.3);
+        }
+
+        .membro-check {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .membro-admin-item.selecionado .membro-check {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--dark);
+            font-size: 0.7rem;
+        }
+
+        .membro-nome-admin {
+            font-size: 0.85rem;
+            flex: 1;
+        }
+
+        .membro-cv-admin {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-salvar {
+            flex: 1;
+            padding: 10px;
+            background: #22c55e;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Lexend', sans-serif;
+            transition: 0.2s;
+        }
+
+        .btn-salvar:hover {
+            background: #16a34a;
+        }
+
+        .btn-limpar {
+            padding: 10px 15px;
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Lexend', sans-serif;
+            transition: 0.2s;
+        }
+
+        .btn-limpar:hover {
+            background: #dc2626;
+        }
+
+        .admin-msg {
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .admin-msg.sucesso {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            display: block;
+        }
+
+        .admin-msg.erro {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            display: block;
+        }
+
+        .contador-admin {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .contador-admin span {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
         footer {
             background-color: var(--dark);
             color: #fff;
@@ -224,11 +625,22 @@
         }
 
         @media (max-width: 768px) {
-            .tabs { flex-direction: column; }
-            .link-cla { width: 100%; font-size: 0.9rem; }
+            .tabs {
+                flex-direction: column;
+            }
+
+            .link-cla {
+                width: 100%;
+                font-size: 0.9rem;
+            }
+
+            .admin-panel {
+                width: 100%;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <nav>
@@ -248,68 +660,409 @@
         <h2>Nossas Listas</h2>
 
         <div class="tabs">
-            <button class="tab-btn" onclick="mostrarLista(event, 'principal')">CLASH CITY BR</button>
-            <button class="tab-btn active" onclick="mostrarLista(event, 'clã2')">CLASH CITY BR 2</button>
-            <button class="tab-btn" onclick="mostrarLista(event, 'clã3')">CLASH CITY BR 3</button>
+            <button class="tab-btn active" onclick="mostrarLista(event, 'principal')">CLASH CITY BR</button>
+            <button class="tab-btn" onclick="mostrarLista(event, 'cla2')">CLASH CITY BR 2</button>
+            <button class="tab-btn" onclick="mostrarLista(event, 'cla3')">CLASH CITY BR 3</button>
         </div>
 
-        <div id="containerListas" class="lista-nomes"></div>
+        <p class="tamanho-info" id="tamanhoInfo"></p>
+        <div id="containerListas" class="lista-nomes">
+            <p style="text-align:center;opacity:0.6;">Carregando convocação...</p>
+        </div>
 
         <div class="info-pos-lista">
             <p class="msg-alerta">Atenção Guerreiro!</p>
-            <p style="margin-bottom: 20px; font-weight: 600;">Se o seu nome está na lista acima, apresente-se imediatamente ao seu clã designado.</p>
+            <p style="margin-bottom: 20px; font-weight: 600;">Se o seu nome está na lista acima, apresente-se
+                imediatamente ao seu clã designado.</p>
             <div id="containerLink"></div>
         </div>
     </main>
+
+    <!-- MODAL DE PERFIL -->
+    <div id="modalPerfil" class="modal-overlay" onclick="fecharModal(event)">
+        <div class="modal-content">
+            <span class="modal-close"
+                onclick="document.getElementById('modalPerfil').style.display='none'">&times;</span>
+            <div class="modal-header">
+                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <div>
+                        <h2 id="profNome" style="margin:0;">Carregando...</h2>
+                        <span id="profTag" class="cv-tag">#000000</span>
+                        <span id="profCV" class="cv-tag" style="margin-left:6px;">CV --</span>
+                    </div>
+                    <span id="profNivel"
+                        style="background:var(--primary);color:#000;font-weight:800;padding:4px 10px;border-radius:20px;font-size:0.85rem;">Nível
+                        --</span>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-box"><span id="profEstrelas">--</span>
+                    <p>Média Temporada</p>
+                </div>
+                <div class="stat-box"><span id="profTrofeus">--</span>
+                    <p>Troféus Atuais</p>
+                </div>
+                <div class="stat-box"><span id="profGuerras">--</span>
+                    <p>Guerras</p>
+                </div>
+                <div class="stat-box"><span id="profWarStars">--</span>
+                    <p>Estrelas Históricas</p>
+                </div>
+            </div>
+            <a id="linkPerfilCompleto" href="#" target="_blank" class="btn-perfil">Ver Perfil Completo →</a>
+        </div>
+    </div>
+
+    <!-- BOTÃO ADMIN -->
+    <div class="admin-toggle">
+        <button class="btn-admin" onclick="toggleAdmin()">⚙️ Admin</button>
+    </div>
+
+    <!-- PAINEL ADMIN -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="admin-header">
+            <h3>⚙️ Gerenciar CWL</h3>
+            <button class="btn-fechar-admin" onclick="toggleAdmin()">×</button>
+        </div>
+
+        <div id="adminLogin" class="admin-login">
+            <p style="font-size:0.85rem; margin-bottom:15px; color:#94a3b8;">Digite a senha admin para continuar:</p>
+            <input type="password" id="adminSenha" placeholder="Senha admin"
+                onkeypress="if(event.key==='Enter')fazerLogin()">
+            <button class="btn-login" onclick="fazerLogin()">Entrar</button>
+            <p id="loginErro" style="color:#ef4444; font-size:0.8rem; margin-top:8px; display:none;">Senha incorreta.
+            </p>
+        </div>
+
+        <div id="adminContent" class="admin-content">
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="trocarAbaAdmin(event, 'principal')">CCB 1</button>
+                <button class="admin-tab" onclick="trocarAbaAdmin(event, 'cla2')">CCB 2</button>
+                <button class="admin-tab" onclick="trocarAbaAdmin(event, 'cla3')">CCB 3</button>
+            </div>
+
+            <!-- CLA 1 -->
+            <div id="admin-principal" class="admin-cla-section active">
+                <label class="admin-label">Tamanho da lista:</label>
+                <select class="tamanho-select" id="tamanho-principal">
+                    <option value="15">15 membros</option>
+                    <option value="16">16 membros (+ 1 reserva)</option>
+                    <option value="30">30 membros</option>
+                </select>
+                <p class="contador-admin">Selecionados: <span id="count-principal">0</span></p>
+                <div id="lista-principal" class="membros-lista-admin"></div>
+                <div class="admin-actions">
+                    <button class="btn-salvar" onclick="salvarConvocacao('principal')">💾 Salvar</button>
+                    <button class="btn-limpar" onclick="limparConvocacao('principal')">🗑️</button>
+                </div>
+                <p id="msg-principal" class="admin-msg"></p>
+            </div>
+
+            <!-- CLA 2 -->
+            <div id="admin-cla2" class="admin-cla-section">
+                <label class="admin-label">Tamanho da lista:</label>
+                <select class="tamanho-select" id="tamanho-cla2">
+                    <option value="15">15 membros</option>
+                    <option value="16">16 membros (+ 1 reserva)</option>
+                    <option value="30">30 membros</option>
+                </select>
+                <p class="contador-admin">Selecionados: <span id="count-cla2">0</span></p>
+                <div id="lista-cla2" class="membros-lista-admin"></div>
+                <div class="admin-actions">
+                    <button class="btn-salvar" onclick="salvarConvocacao('cla2')">💾 Salvar</button>
+                    <button class="btn-limpar" onclick="limparConvocacao('cla2')">🗑️</button>
+                </div>
+                <p id="msg-cla2" class="admin-msg"></p>
+            </div>
+
+            <!-- CLA 3 -->
+            <div id="admin-cla3" class="admin-cla-section">
+                <label class="admin-label">Tamanho da lista:</label>
+                <select class="tamanho-select" id="tamanho-cla3">
+                    <option value="15">15 membros</option>
+                    <option value="16">16 membros (+ 1 reserva)</option>
+                    <option value="30">30 membros</option>
+                </select>
+                <p class="contador-admin">Selecionados: <span id="count-cla3">0</span></p>
+                <div id="lista-cla3" class="membros-lista-admin"></div>
+                <div class="admin-actions">
+                    <button class="btn-salvar" onclick="salvarConvocacao('cla3')">💾 Salvar</button>
+                    <button class="btn-limpar" onclick="limparConvocacao('cla3')">🗑️</button>
+                </div>
+                <p id="msg-cla3" class="admin-msg"></p>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <p>Família Clash City BR © desde 2017.</p>
     </footer>
 
     <script>
-        const dadosListas = {
-            'principal': {
-                nomeExibicao: "CLASH CITY BR",
-                membros: ["OFF"],
-                link: "https://link.clashofclans.com/pt/?action=OpenClanProfile&tag=GUPJU0L2"
-            },
-             'clã2': {
-                nomeExibicao: "CLASH CITY BR 2",
-                membros: ["OFF"],
-                link: "https://link.clashofclans.com/pt/?action=OpenClanProfile&tag=2LQY9RYV0"
-            },
-            'clã3': {
-                nomeExibicao: "CLASH CITY BR 3",
-                membros: ["Dking Bacon", "Shuya Goenji", "Kyros", "xFrozen", "Zaga-0", "Zaga-4", "Nettim", "Victor Hugo", "Rayleigh", "ManoplaDeBronze", "VitinDoGrau", "Igor", "Chicken Lord", "Seto Kaiba", "Zed the Dog"],
-                link: "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=2JY8QGQC8"
-            }
+        const BACKEND = "https://cork-dice-gala.ngrok-free.dev";
+        const HEADERS = { 'ngrok-skip-browser-warning': 'true' };
+
+        const linksCla = {
+            'principal': "https://link.clashofclans.com/pt/?action=OpenClanProfile&tag=GUPJU0L2",
+            'cla2': "https://link.clashofclans.com/pt/?action=OpenClanProfile&tag=2LQY9RYV0",
+            'cla3': "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=2JY8QGQC8"
         };
 
-        function mostrarLista(e, idCla) {
-            // Atualiza botões
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            if(e) e.target.classList.add('active');
+        const nomesCla = {
+            'principal': "CLASH CITY BR",
+            'cla2': "CLASH CITY BR 2",
+            'cla3': "CLASH CITY BR 3"
+        };
+
+        let claAtivo = 'principal';
+        let todosMembrosBanco = [];
+        let selecaoAdmin = { principal: [], cla2: [], cla3: [] };
+        let adminSenha = '';
+
+        // ============================================================
+        // CARREGAR CONVOCAÇÃO PÚBLICA
+        // ============================================================
+        async function mostrarLista(e, cla) {
+            claAtivo = cla;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            if (e) e.target.classList.add('active');
 
             const container = document.getElementById('containerListas');
+            const tamanhoInfo = document.getElementById('tamanhoInfo');
             const linkContainer = document.getElementById('containerLink');
-            const dados = dadosListas[idCla];
 
-            // Renderiza lista
-            container.innerHTML = dados.membros.map((nome, index) => `
-                <div class="nome-card">
-                    <span class="num">${index + 1}</span>
-                    <span class="nome">${nome}</span>
+            container.innerHTML = '<p style="text-align:center;opacity:0.6;">Carregando...</p>';
+
+            try {
+                const resp = await fetch(`${BACKEND}/cwl/${cla}`, { headers: HEADERS });
+                const dados = await resp.json();
+
+                if (!dados.membros || dados.membros.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;opacity:0.6;grid-column:1/-1;">Convocação não publicada ainda.</p>';
+                    tamanhoInfo.textContent = '';
+                } else {
+                    tamanhoInfo.textContent = `Lista de ${dados.tamanho} membros • ${dados.membros.length} convocados`;
+                    container.innerHTML = dados.membros.map((m, i) => `
+                <div class="nome-card" onclick="abrirPerfil('${m.tag}')">
+                    <span class="num">${i + 1}</span>
+                    <div class="nome-info">
+                        <div class="nome">${m.nome}</div>
+                        <div class="cv-mini">CV ${m.cv}</div>
+                    </div>
                 </div>
             `).join('');
+                }
 
-            // Renderiza o botão de entrada com o nome correto
-            linkContainer.innerHTML = `
-                <a href="${dados.link}" target="_blank" class="link-cla">Entrar no ${dados.nomeExibicao} agora</a>
-            `;
+                linkContainer.innerHTML = `<a href="${linksCla[cla]}" target="_blank" class="link-cla">Entrar no ${nomesCla[cla]} agora</a>`;
+            } catch (err) {
+                container.innerHTML = '<p style="text-align:center;opacity:0.6;grid-column:1/-1;">Nenhuma convocação ativa no momento.</p>';
+            }
         }
 
-        // Início padrão
-        mostrarLista(null, 'principal');
+        // ============================================================
+        // MODAL DE PERFIL
+        // ============================================================
+        async function abrirPerfil(tag) {
+            const modal = document.getElementById('modalPerfil');
+            modal.style.display = 'flex';
+
+            document.getElementById('profNome').innerText = "Carregando...";
+            document.getElementById('profTag').innerText = tag;
+            document.getElementById('profCV').innerText = "CV --";
+            document.getElementById('profNivel').innerText = "Nível --";
+            document.getElementById('profEstrelas').innerText = "--";
+            document.getElementById('profTrofeus').innerText = "--";
+            document.getElementById('profGuerras').innerText = "--";
+            document.getElementById('profWarStars').innerText = "--";
+
+            const tagEncoded = encodeURIComponent(tag);
+            document.getElementById('linkPerfilCompleto').href = `https://clashcitybr.github.io/controle-cla/perfil?tag=${tagEncoded}`;
+
+            // Dados locais do banco
+            const membroLocal = todosMembrosBanco.find(m => m.tag === tag);
+            if (membroLocal) {
+                const mediaE = membroLocal.guerras > 0 ? (membroLocal.totalEstrelas / membroLocal.guerras).toFixed(2) : '0.00';
+                document.getElementById('profEstrelas').innerText = `${mediaE} ★`;
+                document.getElementById('profGuerras').innerText = membroLocal.guerras;
+                document.getElementById('profCV').innerText = `CV ${membroLocal.cv}`;
+            }
+
+            try {
+                const resp = await fetch(`${BACKEND}/jogador/${encodeURIComponent(tag)}`, { headers: HEADERS });
+                const data = await resp.json();
+                document.getElementById('profNome').innerText = data.name || "Não encontrado";
+                document.getElementById('profTag').innerText = data.tag || tag;
+                document.getElementById('profCV').innerText = `CV ${data.townHallLevel ?? '--'}`;
+                document.getElementById('profNivel').innerText = `Nível ${data.expLevel ?? '--'}`;
+                document.getElementById('profTrofeus').innerText = data.trophies?.toLocaleString('pt-BR') ?? '--';
+                document.getElementById('profWarStars').innerText = data.warStars?.toLocaleString('pt-BR') ?? '--';
+            } catch (e) {
+                console.error("Erro ao carregar perfil:", e);
+            }
+        }
+
+        function fecharModal(e) {
+            if (e.target === document.getElementById('modalPerfil')) {
+                document.getElementById('modalPerfil').style.display = 'none';
+            }
+        }
+
+        // ============================================================
+        // PAINEL ADMIN
+        // ============================================================
+        function toggleAdmin() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('open');
+        }
+
+        async function fazerLogin() {
+            const senha = document.getElementById('adminSenha').value;
+            try {
+                const resp = await fetch(`${BACKEND}/cwl/principal`, {
+                    headers: { ...HEADERS, 'x-admin-key': senha }
+                });
+                // Testa autenticação tentando salvar algo vazio de forma silenciosa
+                const testResp = await fetch(`${BACKEND}/cwl/principal`, {
+                    method: 'POST',
+                    headers: { ...HEADERS, 'Content-Type': 'application/json', 'x-admin-key': senha },
+                    body: JSON.stringify({ membros: [], tamanho: 15 })
+                });
+
+                if (testResp.status === 401) {
+                    document.getElementById('loginErro').style.display = 'block';
+                    return;
+                }
+
+                adminSenha = senha;
+                document.getElementById('loginErro').style.display = 'none';
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminContent').classList.add('visible');
+
+                await carregarTodosMembros();
+                await carregarConvocacoesAdmin();
+            } catch (e) {
+                document.getElementById('loginErro').style.display = 'block';
+            }
+        }
+
+        async function carregarTodosMembros() {
+            try {
+                const resp = await fetch(`${BACKEND}/membros`, { headers: HEADERS });
+                todosMembrosBanco = await resp.json();
+                todosMembrosBanco.sort((a, b) => a.nome.localeCompare(b.nome));
+                renderizarListasAdmin();
+            } catch (e) {
+                console.error("Erro ao carregar membros:", e);
+            }
+        }
+
+        async function carregarConvocacoesAdmin() {
+            for (const cla of ['principal', 'cla2', 'cla3']) {
+                try {
+                    const resp = await fetch(`${BACKEND}/cwl/${cla}`, { headers: HEADERS });
+                    const dados = await resp.json();
+                    selecaoAdmin[cla] = dados.membros ? dados.membros.map(m => m.tag) : [];
+                    if (dados.tamanho) {
+                        document.getElementById(`tamanho-${cla}`).value = dados.tamanho;
+                    }
+                } catch (e) { }
+            }
+            renderizarListasAdmin();
+        }
+
+        function renderizarListasAdmin() {
+            for (const cla of ['principal', 'cla2', 'cla3']) {
+                const container = document.getElementById(`lista-${cla}`);
+                if (!container) continue;
+
+                container.innerHTML = todosMembrosBanco.map(m => {
+                    const selecionado = selecaoAdmin[cla].includes(m.tag);
+                    return `
+            <div class="membro-admin-item ${selecionado ? 'selecionado' : ''}" onclick="toggleMembro('${cla}', '${m.tag}', this)">
+                <div class="membro-check">${selecionado ? '✓' : ''}</div>
+                <span class="membro-nome-admin">${m.nome}</span>
+                <span class="membro-cv-admin">CV ${m.cv}</span>
+            </div>`;
+                }).join('');
+
+                atualizarContador(cla);
+            }
+        }
+
+        function toggleMembro(cla, tag, el) {
+            const idx = selecaoAdmin[cla].indexOf(tag);
+            if (idx === -1) {
+                selecaoAdmin[cla].push(tag);
+                el.classList.add('selecionado');
+                el.querySelector('.membro-check').textContent = '✓';
+            } else {
+                selecaoAdmin[cla].splice(idx, 1);
+                el.classList.remove('selecionado');
+                el.querySelector('.membro-check').textContent = '';
+            }
+            atualizarContador(cla);
+        }
+
+        function atualizarContador(cla) {
+            const count = document.getElementById(`count-${cla}`);
+            if (count) count.textContent = selecaoAdmin[cla].length;
+        }
+
+        function trocarAbaAdmin(e, cla) {
+            document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.admin-cla-section').forEach(s => s.classList.remove('active'));
+            e.target.classList.add('active');
+            document.getElementById(`admin-${cla}`).classList.add('active');
+        }
+
+        async function salvarConvocacao(cla) {
+            const tamanho = parseInt(document.getElementById(`tamanho-${cla}`).value);
+            const msg = document.getElementById(`msg-${cla}`);
+
+            try {
+                const resp = await fetch(`${BACKEND}/cwl/${cla}`, {
+                    method: 'POST',
+                    headers: { ...HEADERS, 'Content-Type': 'application/json', 'x-admin-key': adminSenha },
+                    body: JSON.stringify({ membros: selecaoAdmin[cla], tamanho })
+                });
+                const data = await resp.json();
+
+                if (resp.ok) {
+                    msg.className = 'admin-msg sucesso';
+                    msg.textContent = `✅ ${data.mensagem}`;
+                    mostrarLista(null, claAtivo);
+                } else {
+                    msg.className = 'admin-msg erro';
+                    msg.textContent = `❌ ${data.erro}`;
+                }
+            } catch (e) {
+                msg.className = 'admin-msg erro';
+                msg.textContent = '❌ Erro ao salvar.';
+            }
+
+            setTimeout(() => { msg.className = 'admin-msg'; }, 3000);
+        }
+
+        async function limparConvocacao(cla) {
+            if (!confirm(`Limpar convocação do ${nomesCla[cla]}?`)) return;
+            selecaoAdmin[cla] = [];
+            await salvarConvocacao(cla);
+            renderizarListasAdmin();
+        }
+
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Carrega membros do banco para o modal
+            try {
+                const resp = await fetch(`${BACKEND}/membros`, { headers: HEADERS });
+                todosMembrosBanco = await resp.json();
+            } catch (e) { }
+
+            mostrarLista(null, 'principal');
+        });
     </script>
 </body>
+
 </html>
