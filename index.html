@@ -903,14 +903,9 @@
 
         .nav-curto { display: none; }
 
-        /* Menu com 7 links cabendo em telas de 360px */
+        /* No celular o menu vira hambúrguer (menu.js do controle-cla) */
         @media (max-width: 640px) {
-            nav { overflow-x: auto; scrollbar-width: none; }
-            nav::-webkit-scrollbar { display: none; }
-            nav ul { gap: 8px; padding: 0 6px; }
-            nav a { font-size: 0.62rem; letter-spacing: 0.1px; white-space: nowrap; }
-            .nav-longo { display: none; }
-            .nav-curto { display: inline; }
+            nav { padding: 0; }
         }
     </style>
 </head>
@@ -928,6 +923,7 @@
             <li><a href="https://clashcitybr.github.io/controle-cla/historico.html">Histórico</a></li>
         </ul>
     </nav>
+    <script src="https://clashcitybr.github.io/controle-cla/menu.js"></script>
 
     <header class="hero">
         <h1>Convocação CWL</h1>
