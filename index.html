@@ -901,12 +901,16 @@
             .liga-esconde-mobile { display: none; }
         }
 
-        /* Menu com 6 links cabendo em telas de 360px */
+        .nav-curto { display: none; }
+
+        /* Menu com 7 links cabendo em telas de 360px */
         @media (max-width: 640px) {
             nav { overflow-x: auto; scrollbar-width: none; }
             nav::-webkit-scrollbar { display: none; }
-            nav ul { gap: 10px; padding: 0 8px; }
-            nav a { font-size: 0.64rem; letter-spacing: 0.2px; white-space: nowrap; }
+            nav ul { gap: 8px; padding: 0 6px; }
+            nav a { font-size: 0.62rem; letter-spacing: 0.1px; white-space: nowrap; }
+            .nav-longo { display: none; }
+            .nav-curto { display: inline; }
         }
     </style>
 </head>
@@ -917,9 +921,10 @@
         <ul>
             <li><a href="https://clashcitybr.github.io/">Home</a></li>
             <li><a href="https://clashcitybr.github.io/liga/" class="active">Liga</a></li>
-            <li><a href="https://clashcitybr.github.io/controle-cla/">Desempenho</a></li>
+            <li><a href="https://clashcitybr.github.io/controle-cla/"><span class="nav-longo">Desempenho</span><span class="nav-curto">Ranking</span></a></li>
             <li><a href="https://clashcitybr.github.io/controle-cla/membros.html">Membros</a></li>
             <li><a href="https://clashcitybr.github.io/controle-cla/capital.html">Capital</a></li>
+            <li><a href="https://clashcitybr.github.io/controle-cla/ataques.html">Ataques</a></li>
             <li><a href="https://clashcitybr.github.io/controle-cla/historico.html">Histórico</a></li>
         </ul>
     </nav>
