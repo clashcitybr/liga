@@ -755,6 +755,26 @@
             color: var(--primary);
         }
 
+        .liga-hist-seletor {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin: 6px 0 18px;
+        }
+        .liga-hist-btn {
+            padding: 9px 16px;
+            border-radius: 999px;
+            border: 2px solid rgba(17, 3, 44, 0.12);
+            background: #fff;
+            color: var(--dark);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .liga-hist-btn.active { background: var(--dark); border-color: var(--dark); color: #fff; }
+
         .liga-bloco-titulo {
             font-size: 1.1rem;
             font-weight: 900;
@@ -942,6 +962,14 @@
             <h2>Guerras da Liga</h2>
             <div id="ligaConteudo">
                 <p class="liga-vazio">Carregando guerras da liga...</p>
+            </div>
+        </section>
+
+        <!-- TEMPORADAS ANTERIORES (guardadas pelo backend a cada liga) -->
+        <section id="historico-liga" class="liga-guerras">
+            <h2>Temporadas anteriores</h2>
+            <div id="historicoLigaConteudo">
+                <p class="liga-vazio">Carregando temporadas...</p>
             </div>
         </section>
 
@@ -1309,6 +1337,9 @@
                 // O usuário pode ter trocado de aba enquanto carregava
                 if (cla !== claAtivo) return;
 
+                temporadaAoVivo[cla] = liga.emLiga && liga.estado !== 'ended' ? liga.temporada : null;
+                carregarHistoricoLiga(cla);
+
                 if (!liga.emLiga) {
                     alvo.innerHTML = liga.privado
                         ? `<p class="liga-vazio">O histórico de guerra do ${nomesCla[cla]} está privado no jogo, então não dá para mostrar as guerras da liga.</p>`
@@ -1339,7 +1370,78 @@
             } catch (err) {
                 console.error('Guerras da liga indisponíveis:', err.message);
                 if (cla !== claAtivo) return;
+                carregarHistoricoLiga(cla);
                 alvo.innerHTML = '<p class="liga-vazio">Não foi possível carregar as guerras da liga agora. Tenta recarregar a página em instantes.</p>';
+            }
+        }
+
+        // ============================================================
+        // TEMPORADAS ANTERIORES
+        // ============================================================
+        let historicoLista = null;                       // resumo de todas as temporadas guardadas
+        const temporadaAoVivo = {};                      // cla -> temporada que ainda está rolando
+        const historicoEscolhido = {};                   // cla -> temporada aberta
+
+        function nomeTemporada(t) {
+            const [ano, mes] = (t || '').split('-');
+            return mes ? `${nomesMesesLiga[parseInt(mes, 10) - 1]} ${ano}` : t;
+        }
+
+        async function carregarHistoricoLiga(cla) {
+            const alvo = document.getElementById('historicoLigaConteudo');
+            if (!alvo) return;
+            if (!historicoLista) {
+                try {
+                    const r = await fetch(`${BACKEND}/liga/historico`, { headers: HEADERS });
+                    historicoLista = r.ok ? await r.json() : [];
+                } catch (_) { historicoLista = []; }
+            }
+            if (cla !== claAtivo) return;
+
+            // Só temporadas já encerradas (a que está rolando aparece em "Guerras da Liga")
+            const temporadas = historicoLista
+                .filter(t => t.clas.some(c => c.cla === cla))
+                .filter(t => t.temporada !== temporadaAoVivo[cla])
+                .map(t => t.temporada);
+
+            if (!temporadas.length) {
+                alvo.innerHTML = `<p class="liga-vazio">Ainda não há temporadas guardadas do ${nomesCla[cla]}. A partir da liga de novembro/2026, cada temporada fica salva aqui quando acabar.</p>`;
+                return;
+            }
+
+            let escolhida = historicoEscolhido[cla];
+            if (!temporadas.includes(escolhida)) escolhida = temporadas[0];
+            historicoEscolhido[cla] = escolhida;
+
+            const botoes = temporadas.map(t =>
+                `<button type="button" class="liga-hist-btn${t === escolhida ? ' active' : ''}" data-temporada="${t}">${nomeTemporada(t)}</button>`).join('');
+            alvo.innerHTML = `<div class="liga-hist-seletor">${botoes}</div><div id="historicoLigaDetalhe"><p class="liga-vazio">Carregando...</p></div>`;
+            alvo.querySelectorAll('.liga-hist-btn').forEach(b => b.addEventListener('click', () => {
+                historicoEscolhido[cla] = b.dataset.temporada;
+                carregarHistoricoLiga(cla);
+            }));
+
+            const detalhe = document.getElementById('historicoLigaDetalhe');
+            try {
+                const r = await fetch(`${BACKEND}/liga/historico/${escolhida}/${cla}`, { headers: HEADERS });
+                if (!r.ok) throw new Error(r.status);
+                const liga = await r.json();
+                if (cla !== claAtivo || historicoEscolhido[cla] !== escolhida) return;
+                const nosso = (liga.classificacao || []).find(c => c.nosso);
+                const resumo = nosso
+                    ? `${nosso.posicao}º lugar no grupo · ${nosso.vitorias} vitória(s), ${nosso.empates} empate(s), ${nosso.derrotas} derrota(s)`
+                    : '';
+                detalhe.innerHTML = `
+                    <p class="liga-sub">${nomeTemporada(escolhida)}${resumo ? ` · ${resumo}` : ''}</p>
+                    <h3 class="liga-bloco-titulo">Rodadas</h3>
+                    <div class="liga-rodadas">${htmlRodadas(liga)}</div>
+                    <h3 class="liga-bloco-titulo">Classificação do grupo</h3>
+                    ${htmlClassificacao(liga)}
+                    ${htmlJogadores(liga)}`;
+                detalhe.querySelectorAll('tr.clicavel').forEach(tr =>
+                    tr.addEventListener('click', () => abrirPerfil(tr.dataset.tag)));
+            } catch (err) {
+                detalhe.innerHTML = '<p class="liga-vazio">Não foi possível carregar essa temporada agora.</p>';
             }
         }
 
