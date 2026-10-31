@@ -952,6 +952,9 @@
             nav { padding: 0; }
         }
     </style>
+    <!-- Ícones comuns (se não carregar, a página segue sem eles) -->
+    <script src="https://clashcitybr.github.io/controle-cla/icones.js?v=1"></script>
+    <script>window.ic = window.ic || function () { return ''; };</script>
     <!-- Tema visual comum (carregado por último) -->
     <link rel="stylesheet" href="https://clashcitybr.github.io/controle-cla/tema.css?v=1">
 </head>
@@ -1052,13 +1055,13 @@
 
     <!-- BOTÃO ADMIN -->
     <div class="admin-toggle">
-        <button class="btn-admin" onclick="toggleAdmin()">⚙️ Admin</button>
+        <button class="btn-admin" onclick="toggleAdmin()"><i data-ic="engrenagem"></i> Admin</button>
     </div>
 
     <!-- PAINEL ADMIN -->
     <div id="adminPanel" class="admin-panel">
         <div class="admin-header">
-            <h3>⚙️ Gerenciar CWL</h3>
+            <h3><i data-ic="engrenagem"></i> Gerenciar CWL</h3>
             <button class="btn-fechar-admin" onclick="toggleAdmin()">×</button>
         </div>
 
@@ -1091,8 +1094,8 @@
                 <input type="search" class="busca-admin" placeholder="Buscar membro..." oninput="filtrarAdmin('principal', this.value)">
                 <div id="lista-principal" class="membros-lista-admin"></div>
                 <div class="admin-actions">
-                    <button class="btn-salvar" onclick="salvarConvocacao('principal')">💾 Salvar</button>
-                    <button class="btn-limpar" onclick="limparConvocacao('principal')">🗑️</button>
+                    <button class="btn-salvar" onclick="salvarConvocacao('principal')"><i data-ic="salvar"></i> Salvar</button>
+                    <button class="btn-limpar" onclick="limparConvocacao('principal')" aria-label="Limpar"><i data-ic="lixeira"></i></button>
                 </div>
                 <p id="msg-principal" class="admin-msg"></p>
             </div>
@@ -1109,8 +1112,8 @@
                 <input type="search" class="busca-admin" placeholder="Buscar membro..." oninput="filtrarAdmin('cla2', this.value)">
                 <div id="lista-cla2" class="membros-lista-admin"></div>
                 <div class="admin-actions">
-                    <button class="btn-salvar" onclick="salvarConvocacao('cla2')">💾 Salvar</button>
-                    <button class="btn-limpar" onclick="limparConvocacao('cla2')">🗑️</button>
+                    <button class="btn-salvar" onclick="salvarConvocacao('cla2')"><i data-ic="salvar"></i> Salvar</button>
+                    <button class="btn-limpar" onclick="limparConvocacao('cla2')" aria-label="Limpar"><i data-ic="lixeira"></i></button>
                 </div>
                 <p id="msg-cla2" class="admin-msg"></p>
             </div>
@@ -1127,8 +1130,8 @@
                 <input type="search" class="busca-admin" placeholder="Buscar membro..." oninput="filtrarAdmin('cla3', this.value)">
                 <div id="lista-cla3" class="membros-lista-admin"></div>
                 <div class="admin-actions">
-                    <button class="btn-salvar" onclick="salvarConvocacao('cla3')">💾 Salvar</button>
-                    <button class="btn-limpar" onclick="limparConvocacao('cla3')">🗑️</button>
+                    <button class="btn-salvar" onclick="salvarConvocacao('cla3')"><i data-ic="salvar"></i> Salvar</button>
+                    <button class="btn-limpar" onclick="limparConvocacao('cla3')" aria-label="Limpar"><i data-ic="lixeira"></i></button>
                 </div>
                 <p id="msg-cla3" class="admin-msg"></p>
             </div>
@@ -1144,8 +1147,8 @@
                 <input type="search" class="busca-admin" placeholder="Buscar membro..." oninput="filtrarAdmin('parceiro', this.value)">
                 <div id="lista-parceiro" class="membros-lista-admin"></div>
                 <div class="admin-actions">
-                    <button class="btn-salvar" onclick="salvarConvocacao('parceiro')">💾 Salvar</button>
-                    <button class="btn-limpar" onclick="limparConvocacao('parceiro')">🗑️</button>
+                    <button class="btn-salvar" onclick="salvarConvocacao('parceiro')"><i data-ic="salvar"></i> Salvar</button>
+                    <button class="btn-limpar" onclick="limparConvocacao('parceiro')" aria-label="Limpar"><i data-ic="lixeira"></i></button>
                 </div>
                 <p id="msg-parceiro" class="admin-msg"></p>
             </div>
@@ -1258,25 +1261,25 @@
 
             let selo, tempo = '', pendentes = '';
             if (r.estado === 'inWar') {
-                selo = `⚔️ RODADA ${r.rodada} EM ANDAMENTO`;
+                selo = `${ic('guerra')} RODADA ${r.rodada} EM ANDAMENTO`;
                 const fim = parseDataCoC(r.fim);
                 tempo = fim && fim > new Date()
                     ? `<p class="liga-tempo">Faltam ${tempoRestante(fim)} para o fim</p>`
                     : `<p class="liga-tempo">Encerrando...</p>`;
                 const chips = r.pendentes.length > 0
                     ? r.pendentes.map(p => `<span class="liga-chip">${esc(p.nome)}</span>`).join('')
-                    : '<span class="liga-chip liga-chip-ok">Todo mundo já atacou! 🎉</span>';
+                    : `<span class="liga-chip liga-chip-ok">${ic('festa')} Todo mundo já atacou!</span>`;
                 pendentes = `
                     ${r.pendentes.length > 0 ? `<p class="liga-pendentes-titulo">${r.pendentes.length} membro(s) ainda não atacaram:</p>` : ''}
                     <div class="liga-chips">${chips}</div>`;
             } else if (r.estado === 'preparation') {
-                selo = `⏳ RODADA ${r.rodada} — PREPARAÇÃO`;
+                selo = `${ic('ampulheta')} RODADA ${r.rodada} — PREPARAÇÃO`;
                 const inicio = parseDataCoC(r.inicio);
                 tempo = inicio && inicio > new Date()
                     ? `<p class="liga-tempo">Começa em ${tempoRestante(inicio)}</p>`
                     : `<p class="liga-tempo">Começando...</p>`;
             } else {
-                const icones = { vitoria: '🏆', derrota: '💀', empate: '🤝' };
+                const icones = { vitoria: ic('trofeu'), derrota: ic('caveira'), empate: ic('empate') };
                 selo = `${icones[r.resultado] || ''} RODADA ${r.rodada} ENCERRADA — ${(rotulosResultado[r.resultado] || '').toUpperCase()}`;
             }
 
