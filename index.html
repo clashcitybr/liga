@@ -546,6 +546,29 @@
             color: #94a3b8;
         }
 
+        .membro-cla-admin {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: #f9d246;
+            border: 1px solid rgba(249, 210, 70, 0.4);
+            border-radius: 999px;
+            padding: 1px 7px;
+            white-space: nowrap;
+        }
+
+        .busca-admin {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+        .busca-admin::placeholder { color: #94a3b8; }
+
         .admin-actions {
             display: flex;
             gap: 8px;
@@ -1060,6 +1083,7 @@
                     <option value="30">30 membros</option>
                 </select>
                 <p class="contador-admin">Selecionados: <span id="count-principal">0</span></p>
+                <input type="search" class="busca-admin" placeholder="Buscar membro..." oninput="filtrarAdmin('principal', this.value)">
                 <div id="lista-principal" class="membros-lista-admin"></div>
                 <div class="admin-actions">
                     <button class="btn-salvar" onclick="salvarConvocacao('principal')">💾 Salvar</button>
@@ -1077,6 +1101,7 @@
                     <option value="30">30 membros</option>
                 </select>
                 <p class="contador-admin">Selecionados: <span id="count-cla2">0</span></p>
+                <input type="search" class="busca-admin" placeholder="Buscar membro..." oninput="filtrarAdmin('cla2', this.value)">
                 <div id="lista-cla2" class="membros-lista-admin"></div>
                 <div class="admin-actions">
                     <button class="btn-salvar" onclick="salvarConvocacao('cla2')">💾 Salvar</button>
@@ -1094,6 +1119,7 @@
                     <option value="30">30 membros</option>
                 </select>
                 <p class="contador-admin">Selecionados: <span id="count-cla3">0</span></p>
+                <input type="search" class="busca-admin" placeholder="Buscar membro..." oninput="filtrarAdmin('cla3', this.value)">
                 <div id="lista-cla3" class="membros-lista-admin"></div>
                 <div class="admin-actions">
                     <button class="btn-salvar" onclick="salvarConvocacao('cla3')">💾 Salvar</button>
@@ -1126,6 +1152,7 @@
 
         let claAtivo = 'principal';
         let todosMembrosBanco = [];
+        let membrosAdmin = [];          // lista de convocação: todos os membros da família
         let selecaoAdmin = { principal: [], cla2: [], cla3: [] };
         let adminSenha = '';
 
@@ -1251,6 +1278,13 @@
 
         function htmlRodadas(liga) {
             return liga.rodadas.map(r => {
+                if (r.estado === 'naoRecuperada') {
+                    return `
+                        <div class="liga-rodada">
+                            <div class="liga-rodada-topo"><span>Rodada ${r.rodada}</span><span class="liga-pill">Sem dados</span></div>
+                            <div class="liga-rodada-adv" style="margin-top:8px;">Não foi possível recuperar essa rodada</div>
+                        </div>`;
+                }
                 if (!r.nos) {
                     return `
                         <div class="liga-rodada">
@@ -1428,15 +1462,17 @@
                 const liga = await r.json();
                 if (cla !== claAtivo || historicoEscolhido[cla] !== escolhida) return;
                 const nosso = (liga.classificacao || []).find(c => c.nosso);
+                const rt = liga.resumoTemporada;
                 const resumo = nosso
                     ? `${nosso.posicao}º lugar no grupo · ${nosso.vitorias} vitória(s), ${nosso.empates} empate(s), ${nosso.derrotas} derrota(s)`
-                    : '';
+                    : rt ? `${rt.vitorias} vitória(s)${rt.empates ? `, ${rt.empates} empate(s)` : ''}, ${rt.derrotas} derrota(s) · ${rt.estrelas}★ na temporada` : '';
+                const temClassificacao = (liga.classificacao || []).length > 0;
                 detalhe.innerHTML = `
                     <p class="liga-sub">${nomeTemporada(escolhida)}${resumo ? ` · ${resumo}` : ''}</p>
+                    ${liga.observacao ? `<p class="liga-vazio" style="padding:14px 18px;font-size:0.85rem;">ℹ️ ${esc(liga.observacao)}</p>` : ''}
                     <h3 class="liga-bloco-titulo">Rodadas</h3>
                     <div class="liga-rodadas">${htmlRodadas(liga)}</div>
-                    <h3 class="liga-bloco-titulo">Classificação do grupo</h3>
-                    ${htmlClassificacao(liga)}
+                    ${temClassificacao ? `<h3 class="liga-bloco-titulo">Classificação do grupo</h3>${htmlClassificacao(liga)}` : ''}
                     ${htmlJogadores(liga)}`;
                 detalhe.querySelectorAll('tr.clicavel').forEach(tr =>
                     tr.addEventListener('click', () => abrirPerfil(tr.dataset.tag)));
@@ -1527,16 +1563,36 @@
         document.getElementById('loginErro').style.display = 'block';
     }
 }
+      // Todos os membros dos 3 clãs da família + o parceiro TOP 1 BR (a galera troca de clã toda hora,
+      // então qualquer um pode ser convocado pra qualquer liga)
+      const ROTULO_CLA = { principal: 'BR 1', cla2: 'BR 2', cla3: 'BR 3', parceiro: 'TOP 1' };
       async function carregarTodosMembros() {
     try {
-        const resp = await fetch(`${BACKEND}/membros-cla`, { headers: HEADERS });
-        todosMembrosBanco = await resp.json();
-        todosMembrosBanco.sort((a, b) => a.nome.localeCompare(b.nome));
+        const resp = await fetch(`${BACKEND}/membros-familia`, { headers: HEADERS });
+        const dados = await resp.json();
+        const vistos = new Map();
+        for (const c of dados.clas || []) {
+            if (!ROTULO_CLA[c.chave]) continue;
+            for (const m of c.membros || []) {
+                if (!vistos.has(m.tag)) vistos.set(m.tag, { tag: m.tag, nome: m.nome, cv: m.cv, cla: ROTULO_CLA[c.chave] });
+            }
+        }
+        // Quem já está convocado mas saiu da família continua aparecendo (pra poder desmarcar)
+        for (const m of membrosAdmin) if (m.cla === 'fora' && !vistos.has(m.tag)) vistos.set(m.tag, m);
+        membrosAdmin = [...vistos.values()]
+            .sort((a, b) => (b.cv || 0) - (a.cv || 0) || a.nome.localeCompare(b.nome));
         renderizarListasAdmin();
     } catch (e) {
         console.error("Erro ao carregar membros:", e);
     }
 }
+
+        function filtrarAdmin(cla, termo) {
+            const t = termo.trim().toLowerCase();
+            document.querySelectorAll(`#lista-${cla} .membro-admin-item`).forEach(el => {
+                el.style.display = !t || el.dataset.nome.includes(t) ? '' : 'none';
+            });
+        }
 
         async function carregarConvocacoesAdmin() {
             for (const cla of ['principal', 'cla2', 'cla3']) {
@@ -1544,6 +1600,11 @@
                     const resp = await fetch(`${BACKEND}/cwl/${cla}`, { headers: HEADERS });
                     const dados = await resp.json();
                     selecaoAdmin[cla] = dados.membros ? dados.membros.map(m => m.tag) : [];
+                    for (const m of dados.membros || []) {
+                        if (!membrosAdmin.some(x => x.tag === m.tag)) {
+                            membrosAdmin.push({ tag: m.tag, nome: m.nome, cv: m.cv, cla: 'fora' });
+                        }
+                    }
                     if (dados.tamanho) {
                         document.getElementById(`tamanho-${cla}`).value = dados.tamanho;
                     }
@@ -1557,12 +1618,13 @@
                 const container = document.getElementById(`lista-${cla}`);
                 if (!container) continue;
 
-                container.innerHTML = todosMembrosBanco.map(m => {
+                container.innerHTML = membrosAdmin.map(m => {
                     const selecionado = selecaoAdmin[cla].includes(m.tag);
                     return `
-            <div class="membro-admin-item ${selecionado ? 'selecionado' : ''}" onclick="toggleMembro('${cla}', '${m.tag}', this)">
+            <div class="membro-admin-item ${selecionado ? 'selecionado' : ''}" data-nome="${esc(m.nome).toLowerCase()}" onclick="toggleMembro('${cla}', '${m.tag}', this)">
                 <div class="membro-check">${selecionado ? '✓' : ''}</div>
-                <span class="membro-nome-admin">${m.nome}</span>
+                <span class="membro-nome-admin">${esc(m.nome)}</span>
+                ${m.cla ? `<span class="membro-cla-admin">${m.cla === 'fora' ? 'saiu' : m.cla}</span>` : ''}
                 <span class="membro-cv-admin">CV ${m.cv}</span>
             </div>`;
                 }).join('');
