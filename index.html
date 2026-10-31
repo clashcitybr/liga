@@ -104,6 +104,7 @@
         .tabs {
             margin-bottom: 40px;
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
         }
@@ -978,6 +979,7 @@
             <button class="tab-btn active" onclick="mostrarLista(event, 'principal')">CLASH CITY BR</button>
             <button class="tab-btn" onclick="mostrarLista(event, 'cla2')">CLASH CITY BR 2</button>
             <button class="tab-btn" onclick="mostrarLista(event, 'cla3')">CLASH CITY BR 3</button>
+            <button class="tab-btn" onclick="mostrarLista(event, 'parceiro')">TOP 1 BR</button>
         </div>
 
         <!-- GUERRAS DA LIGA: placar da rodada, resultados, classificação e desempenho -->
@@ -1072,6 +1074,7 @@
                 <button class="admin-tab active" onclick="trocarAbaAdmin(event, 'principal')">CCB 1</button>
                 <button class="admin-tab" onclick="trocarAbaAdmin(event, 'cla2')">CCB 2</button>
                 <button class="admin-tab" onclick="trocarAbaAdmin(event, 'cla3')">CCB 3</button>
+                <button class="admin-tab" onclick="trocarAbaAdmin(event, 'parceiro')">TOP 1</button>
             </div>
 
             <!-- CLA 1 -->
@@ -1127,6 +1130,23 @@
                 </div>
                 <p id="msg-cla3" class="admin-msg"></p>
             </div>
+
+            <div id="admin-parceiro" class="admin-cla-section">
+                <label class="admin-label">Tamanho da lista:</label>
+                <select class="tamanho-select" id="tamanho-parceiro">
+                    <option value="15">15 membros</option>
+                    <option value="16">16 membros (+ 1 reserva)</option>
+                    <option value="30">30 membros</option>
+                </select>
+                <p class="contador-admin">Selecionados: <span id="count-parceiro">0</span></p>
+                <input type="search" class="busca-admin" placeholder="Buscar membro..." oninput="filtrarAdmin('parceiro', this.value)">
+                <div id="lista-parceiro" class="membros-lista-admin"></div>
+                <div class="admin-actions">
+                    <button class="btn-salvar" onclick="salvarConvocacao('parceiro')">💾 Salvar</button>
+                    <button class="btn-limpar" onclick="limparConvocacao('parceiro')">🗑️</button>
+                </div>
+                <p id="msg-parceiro" class="admin-msg"></p>
+            </div>
         </div>
     </div>
 
@@ -1141,19 +1161,21 @@
         const linksCla = {
             'principal': "https://link.clashofclans.com/pt/?action=OpenClanProfile&tag=GUPJU0L2",
             'cla2': "https://link.clashofclans.com/pt/?action=OpenClanProfile&tag=2LQY9RYV0",
-            'cla3': "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=2JY8QGQC8"
+            'cla3': "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=2JY8QGQC8",
+            'parceiro': "https://link.clashofclans.com/pt?action=OpenClanProfile&tag=2CYRC8VQL"
         };
 
         const nomesCla = {
             'principal': "CLASH CITY BR",
             'cla2': "CLASH CITY BR 2",
-            'cla3': "CLASH CITY BR 3"
+            'cla3': "CLASH CITY BR 3",
+            'parceiro': "TOP 1 BR"
         };
 
         let claAtivo = 'principal';
         let todosMembrosBanco = [];
         let membrosAdmin = [];          // lista de convocação: todos os membros da família
-        let selecaoAdmin = { principal: [], cla2: [], cla3: [] };
+        let selecaoAdmin = { principal: [], cla2: [], cla3: [], parceiro: [] };
         let adminSenha = '';
 
         // ============================================================
@@ -1595,7 +1617,7 @@
         }
 
         async function carregarConvocacoesAdmin() {
-            for (const cla of ['principal', 'cla2', 'cla3']) {
+            for (const cla of ['principal', 'cla2', 'cla3', 'parceiro']) {
                 try {
                     const resp = await fetch(`${BACKEND}/cwl/${cla}`, { headers: HEADERS });
                     const dados = await resp.json();
@@ -1614,7 +1636,7 @@
         }
 
         function renderizarListasAdmin() {
-            for (const cla of ['principal', 'cla2', 'cla3']) {
+            for (const cla of ['principal', 'cla2', 'cla3', 'parceiro']) {
                 const container = document.getElementById(`lista-${cla}`);
                 if (!container) continue;
 
