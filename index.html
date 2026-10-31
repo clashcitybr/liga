@@ -952,6 +952,8 @@
             nav { padding: 0; }
         }
     </style>
+    <!-- Tema visual comum (carregado por último) -->
+    <link rel="stylesheet" href="https://clashcitybr.github.io/controle-cla/tema.css?v=1">
 </head>
 
 <body>
@@ -1185,6 +1187,7 @@
             claAtivo = cla;
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             if (e) e.target.classList.add('active');
+            else document.querySelector(`.tab-btn[onclick*="'${cla}'"]`)?.classList.add('active');
 
             const container = document.getElementById('containerListas');
             const tamanhoInfo = document.getElementById('tamanhoInfo');
