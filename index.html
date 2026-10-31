@@ -957,6 +957,8 @@
     <script>window.ic = window.ic || function () { return ''; };</script>
     <!-- Tema visual comum (carregado por último) -->
     <link rel="stylesheet" href="https://clashcitybr.github.io/controle-cla/tema.css?v=1">
+    <!-- Contador anônimo de uso -->
+    <script src="https://clashcitybr.github.io/controle-cla/uso.js?v=1" defer></script>
 </head>
 
 <body>
@@ -1210,10 +1212,10 @@
                 } else {
                     tamanhoInfo.textContent = `Lista de ${dados.tamanho} membros • ${dados.membros.length} convocados`;
                     container.innerHTML = dados.membros.map((m, i) => `
-                <div class="nome-card" onclick="abrirPerfil('${m.tag}')">
+                <div class="nome-card" onclick="abrirPerfil('${esc(m.tag)}')">
                     <span class="num">${i + 1}</span>
                     <div class="nome-info">
-                        <div class="nome">${m.nome}</div>
+                        <div class="nome">${esc(m.nome)}</div>
                         <div class="cv-mini">CV ${m.cv}</div>
                     </div>
                 </div>
