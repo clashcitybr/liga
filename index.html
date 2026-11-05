@@ -692,6 +692,46 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
+        /* ============================================================
+           RAIO-X (adversário da rodada e grupo)
+           ============================================================ */
+        .rx { background: #fff; border-radius: 18px; box-shadow: 0 0 0 1px var(--borda, #e6e1ee), 0 4px 14px rgba(17, 3, 44, 0.06);
+              padding: 18px; margin-bottom: 26px; text-align: left; }
+        .rx-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+        .rx-topo h4 { font-size: 1rem; color: var(--dark); }
+        .rx-topo small { color: var(--texto-suave, #6b6480); font-weight: 600; font-size: 0.78rem; }
+        .rx-rodadas { display: flex; gap: 6px; flex-wrap: wrap; }
+        .rx-rodadas button { border: 1px solid var(--borda, #e6e1ee); background: #fff; border-radius: 999px; padding: 6px 12px;
+              font-weight: 700; font-size: 0.78rem; cursor: pointer; color: var(--dark); }
+        .rx-rodadas button.ativa { background: var(--dark); color: var(--primary); border-color: var(--dark); }
+        .rx-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+        .rx-bloco h5 { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave, #6b6480); margin-bottom: 8px; }
+        .rx-cv { display: grid; grid-template-columns: 54px 1fr 1fr; gap: 6px 8px; align-items: center; font-size: 0.82rem; }
+        .rx-cv .cab { font-size: 0.7rem; font-weight: 800; color: var(--texto-suave, #6b6480); text-transform: uppercase; }
+        .rx-cv b { font-weight: 800; }
+        .rx-barra { display: flex; align-items: center; gap: 6px; }
+        .rx-barra i { display: block; height: 8px; border-radius: 4px; min-width: 2px; }
+        .rx-barra.nos i { background: #077187; }
+        .rx-barra.eles i { background: #ef4444; }
+        .rx-espelho { display: flex; flex-wrap: wrap; gap: 4px; }
+        .rx-pos { width: 38px; border-radius: 8px; padding: 4px 0; text-align: center; font-size: 0.68rem; font-weight: 800; line-height: 1.25;
+              background: #f1f5f9; color: #475569; }
+        .rx-pos span { display: block; font-size: 0.6rem; font-weight: 700; opacity: 0.8; }
+        .rx-pos.nos { background: #dcfce7; color: #166534; }
+        .rx-pos.eles { background: #fee2e2; color: #991b1b; }
+        .rx-legenda { font-size: 0.72rem; color: var(--texto-suave, #6b6480); margin-top: 8px; }
+        .rx-numeros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+        .rx-num { background: #f8f6fc; border-radius: 12px; padding: 10px; }
+        .rx-num b { display: block; font-size: 1.15rem; line-height: 1.2; }
+        .rx-num span { font-size: 0.7rem; color: var(--texto-suave, #6b6480); }
+        .rx-num small { display: block; font-size: 0.66rem; color: var(--texto-suave, #6b6480); margin-top: 2px; }
+        .rx-ameacas { display: grid; gap: 6px; }
+        .rx-ameaca { display: flex; justify-content: space-between; gap: 8px; background: #fff7ed; border-radius: 10px; padding: 7px 10px; font-size: 0.82rem; }
+        .rx-ameaca b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .rx-ameaca span { flex-shrink: 0; color: #9a3412; font-weight: 700; font-size: 0.76rem; }
+        .rx-resumo { font-size: 0.85rem; font-weight: 700; margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: #f8f6fc; }
+        tr.nosso .rx-forte { font-weight: 800; }
+
         .liga-placar {
             background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
             border: 2px solid var(--primary);
@@ -1190,6 +1230,7 @@
         // ============================================================
         async function mostrarLista(e, cla) {
             claAtivo = cla;
+            rxRodadaEscolhida = null;
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             if (e) e.target.classList.add('active');
             else document.querySelector(`.tab-btn[onclick*="'${cla}'"]`)?.classList.add('active');
@@ -1389,6 +1430,116 @@
                 </div>`;
         }
 
+        // ============================================================
+        // RAIO-X DO ADVERSÁRIO E DO GRUPO
+        // ============================================================
+        let rxRodadaEscolhida = null;
+
+        function rodadaPadraoRaioX(liga) {
+            const comRaio = liga.rodadas.filter(r => r.raioX);
+            if (!comRaio.length) return null;
+            // De preferência o próximo adversário (preparação); senão a rodada atual
+            return (comRaio.find(r => r.estado === 'preparation') ||
+                    comRaio.find(r => r.rodada === liga.rodadaAtual) ||
+                    comRaio[comRaio.length - 1]).rodada;
+        }
+
+        function htmlRaioX(liga) {
+            const comRaio = liga.rodadas.filter(r => r.raioX);
+            if (!comRaio.length) return '';
+            if (!comRaio.some(r => r.rodada === rxRodadaEscolhida)) rxRodadaEscolhida = rodadaPadraoRaioX(liga);
+            const r = comRaio.find(x => x.rodada === rxRodadaEscolhida);
+            const x = r.raioX;
+            const pct = v => (v == null ? '—' : `${v}%`);
+
+            const faixas = [['cv18', 'CV18'], ['cv17', 'CV17'], ['cv16', 'CV16'], ['cv15menos', '≤ CV15']];
+            const maior = Math.max(1, ...faixas.flatMap(([k]) => [x.nos.distribuicao[k], x.eles.distribuicao[k]]));
+            const barra = (lado, n) => `<div class="rx-barra ${lado}"><i style="width:${Math.round(n / maior * 100)}%"></i><b>${n}</b></div>`;
+            const linhasCv = faixas
+                .filter(([k]) => x.nos.distribuicao[k] || x.eles.distribuicao[k])
+                .map(([k, rot]) => `<span>${rot}</span>${barra('nos', x.nos.distribuicao[k])}${barra('eles', x.eles.distribuicao[k])}`).join('');
+
+            const espelho = x.espelho.map(e => {
+                const classe = e.nos == null || e.eles == null ? '' : e.nos > e.eles ? 'nos' : e.eles > e.nos ? 'eles' : '';
+                return `<div class="rx-pos ${classe}" title="#${e.posicao}: nós CV${e.nos ?? '?'} × eles CV${e.eles ?? '?'}">#${e.posicao}<span>${e.nos ?? '–'}×${e.eles ?? '–'}</span></div>`;
+            }).join('');
+
+            const a = x.adversarioNaLiga;
+            const numeros = a && a.ataques
+                ? `<div class="rx-numeros">
+                        <div class="rx-num"><b>${pct(a.taxaTripla)}</b><span>dos ataques deles foram 3★</span>${x.nosNaLiga?.ataques ? `<small>nós: ${pct(x.nosNaLiga.taxaTripla)}</small>` : ''}</div>
+                        <div class="rx-num"><b>${a.mediaEstrelas.toFixed(2).replace('.', ',')}★</b><span>média por ataque</span>${x.nosNaLiga?.ataques ? `<small>nós: ${x.nosNaLiga.mediaEstrelas.toFixed(2).replace('.', ',')}★</small>` : ''}</div>
+                        <div class="rx-num"><b>${pct(a.taxaTriplaSofrida)}</b><span>das bases deles caíram com 3★</span>${x.nosNaLiga?.defesas ? `<small>nós: ${pct(x.nosNaLiga.taxaTriplaSofrida)}</small>` : ''}</div>
+                   </div>`
+                : '<p class="rx-legenda">Ainda não jogaram nesta liga — os números aparecem depois da 1ª rodada deles.</p>';
+
+            const ameacas = a?.destaques?.length
+                ? `<div class="rx-ameacas">${a.destaques.map(d => `<div class="rx-ameaca"><b>${esc(d.nome)} · CV${d.cv}</b><span>${d.triplas}/${d.ataques} com 3★</span></div>`).join('')}</div>`
+                : '<p class="rx-legenda">Sem ataques registrados ainda.</p>';
+
+            const dif = x.vantagemEles - x.vantagemNos;
+            const resumo = dif > 0 ? `${ic('alerta')} Eles têm CV maior em ${x.vantagemEles} posições (nós em ${x.vantagemNos}). Atenção no espelho.`
+                : dif < 0 ? `${ic('tudo-ok')} Temos CV maior em ${x.vantagemNos} posições (eles em ${x.vantagemEles}).`
+                : `${ic('empate')} Times parecidos: ${x.vantagemNos} posições pra cada lado.`;
+
+            const botoes = comRaio.map(c => `<button type="button" data-rx="${c.rodada}" class="${c.rodada === r.rodada ? 'ativa' : ''}">R${c.rodada}</button>`).join('');
+            const estado = { preparation: 'preparação', inWar: 'em andamento', warEnded: 'encerrada' }[r.estado] || '';
+
+            return `
+                <div class="rx" id="raioX">
+                    <div class="rx-topo">
+                        <div><h4>${ic('busca')} Raio-X: ${esc(r.adversario.nome)}</h4><small>Rodada ${r.rodada} · ${estado} · ${x.nos.tamanho} × ${x.eles.tamanho}</small></div>
+                        <div class="rx-rodadas">${botoes}</div>
+                    </div>
+                    <div class="rx-grade">
+                        <div class="rx-bloco">
+                            <h5>Centros de Vila na guerra</h5>
+                            <div class="rx-cv"><span></span><span class="cab">Nós · ${x.nos.cvMedio.toFixed(1).replace('.', ',')}</span><span class="cab">Eles · ${x.eles.cvMedio.toFixed(1).replace('.', ',')}</span>${linhasCv}</div>
+                        </div>
+                        <div class="rx-bloco">
+                            <h5>Espelho (nós × eles)</h5>
+                            <div class="rx-espelho">${espelho}</div>
+                            <p class="rx-legenda">Verde: nosso CV é maior · Vermelho: o deles é maior</p>
+                        </div>
+                        <div class="rx-bloco">
+                            <h5>Como eles estão na liga</h5>
+                            ${numeros}
+                        </div>
+                        <div class="rx-bloco">
+                            <h5>Atacantes mais perigosos deles</h5>
+                            ${ameacas}
+                        </div>
+                    </div>
+                    <div class="rx-resumo">${resumo}</div>
+                </div>`;
+        }
+
+        function htmlGrupoRaioX(liga) {
+            if (!Array.isArray(liga.grupoRaioX) || !liga.grupoRaioX.length) return '';
+            const pct = v => (v == null ? '—' : `${v}%`);
+            const linhas = liga.grupoRaioX.map(c => `
+                <tr class="${c.nosso ? 'nosso' : ''}">
+                    <td class="liga-num">${c.posicao ? c.posicao + 'º' : '–'}</td>
+                    <td class="liga-col-nome">${esc(c.nome)}</td>
+                    <td class="liga-num">${c.elenco.cv18}</td>
+                    <td class="liga-num liga-esconde-mobile">${c.elenco.cvMedio.toFixed(1).replace('.', ',')}</td>
+                    <td class="liga-num">${pct(c.taxaTripla)}</td>
+                    <td class="liga-num">${pct(c.taxaTriplaSofrida)}</td>
+                </tr>`).join('');
+            return `
+                <h3 class="liga-bloco-titulo">Raio-X do grupo</h3>
+                <div class="liga-tabela-wrap">
+                    <table class="liga-tabela">
+                        <thead><tr>
+                            <th class="liga-num">Pos</th><th>Clã</th><th class="liga-num">CV18</th>
+                            <th class="liga-num liga-esconde-mobile">CV médio</th><th class="liga-num">3★ ataque</th><th class="liga-num">3★ sofrido</th>
+                        </tr></thead>
+                        <tbody>${linhas}</tbody>
+                    </table>
+                </div>
+                <p class="liga-atualizado" style="margin-top:6px;">CV18 e CV médio: elenco inscrito na liga · 3★ ataque: ataques que derrubaram a base · 3★ sofrido: bases do clã que caíram</p>`;
+        }
+
         async function carregarGuerrasLiga(cla) {
             const alvo = document.getElementById('ligaConteudo');
             if (!alvo) return;
@@ -1421,15 +1572,25 @@
                 alvo.innerHTML = `
                     <p class="liga-sub">${sub}</p>
                     ${htmlPlacarAtual(liga)}
+                    <div id="raioXWrap">${htmlRaioX(liga)}</div>
                     <h3 class="liga-bloco-titulo">Rodadas</h3>
                     <div class="liga-rodadas">${htmlRodadas(liga)}</div>
                     <h3 class="liga-bloco-titulo">Classificação do grupo</h3>
                     ${htmlClassificacao(liga)}
+                    ${htmlGrupoRaioX(liga)}
                     ${htmlJogadores(liga)}
                     <p class="liga-atualizado">Atualizado às ${hora} · os dados chegam com alguns minutos de atraso em relação ao jogo</p>`;
 
                 alvo.querySelectorAll('tr.clicavel').forEach(tr =>
                     tr.addEventListener('click', () => abrirPerfil(tr.dataset.tag)));
+
+                // Trocar a rodada do Raio-X sem buscar tudo de novo
+                const rxWrap = document.getElementById('raioXWrap');
+                if (rxWrap) rxWrap.addEventListener('click', e => {
+                    const b = e.target.closest('[data-rx]'); if (!b) return;
+                    rxRodadaEscolhida = Number(b.dataset.rx);
+                    rxWrap.innerHTML = htmlRaioX(liga);
+                });
 
             } catch (err) {
                 console.error('Guerras da liga indisponíveis:', err.message);
