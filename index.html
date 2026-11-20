@@ -1452,12 +1452,14 @@
             const x = r.raioX;
             const pct = v => (v == null ? '—' : `${v}%`);
 
-            const faixas = [['cv18', 'CV18'], ['cv17', 'CV17'], ['cv16', 'CV16'], ['cv15menos', '≤ CV15']];
-            const maior = Math.max(1, ...faixas.flatMap(([k]) => [x.nos.distribuicao[k], x.eles.distribuicao[k]]));
+            const faixas = [['cv19', 'CV19'], ['cv18', 'CV18'], ['cv17', 'CV17'], ['cv16', 'CV16'], ['cv15menos', '≤ CV15']];
+            // Dados guardados antes do CV19 não têm a faixa cv19: conta como zero
+            const qtd = (lado, k) => Number(lado.distribuicao[k]) || 0;
+            const maior = Math.max(1, ...faixas.flatMap(([k]) => [qtd(x.nos, k), qtd(x.eles, k)]));
             const barra = (lado, n) => `<div class="rx-barra ${lado}"><i style="width:${Math.round(n / maior * 100)}%"></i><b>${n}</b></div>`;
             const linhasCv = faixas
-                .filter(([k]) => x.nos.distribuicao[k] || x.eles.distribuicao[k])
-                .map(([k, rot]) => `<span>${rot}</span>${barra('nos', x.nos.distribuicao[k])}${barra('eles', x.eles.distribuicao[k])}`).join('');
+                .filter(([k]) => qtd(x.nos, k) || qtd(x.eles, k))
+                .map(([k, rot]) => `<span>${rot}</span>${barra('nos', qtd(x.nos, k))}${barra('eles', qtd(x.eles, k))}`).join('');
 
             const espelho = x.espelho.map(e => {
                 const classe = e.nos == null || e.eles == null ? '' : e.nos > e.eles ? 'nos' : e.eles > e.nos ? 'eles' : '';
@@ -1521,7 +1523,7 @@
                 <tr class="${c.nosso ? 'nosso' : ''}">
                     <td class="liga-num">${c.posicao ? c.posicao + 'º' : '–'}</td>
                     <td class="liga-col-nome">${esc(c.nome)}</td>
-                    <td class="liga-num">${c.elenco.cv18}</td>
+                    <td class="liga-num">${Number(c.elenco.cv19) || 0} · ${Number(c.elenco.cv18) || 0}</td>
                     <td class="liga-num liga-esconde-mobile">${c.elenco.cvMedio.toFixed(1).replace('.', ',')}</td>
                     <td class="liga-num">${pct(c.taxaTripla)}</td>
                     <td class="liga-num">${pct(c.taxaTriplaSofrida)}</td>
@@ -1531,13 +1533,13 @@
                 <div class="liga-tabela-wrap">
                     <table class="liga-tabela">
                         <thead><tr>
-                            <th class="liga-num">Pos</th><th>Clã</th><th class="liga-num">CV18</th>
+                            <th class="liga-num">Pos</th><th>Clã</th><th class="liga-num" title="Quantos CV19 e CV18 o clã inscreveu">CV19 · 18</th>
                             <th class="liga-num liga-esconde-mobile">CV médio</th><th class="liga-num">3★ ataque</th><th class="liga-num">3★ sofrido</th>
                         </tr></thead>
                         <tbody>${linhas}</tbody>
                     </table>
                 </div>
-                <p class="liga-atualizado" style="margin-top:6px;">CV18 e CV médio: elenco inscrito na liga · 3★ ataque: ataques que derrubaram a base · 3★ sofrido: bases do clã que caíram</p>`;
+                <p class="liga-atualizado" style="margin-top:6px;">CV19 · 18 e CV médio: elenco inscrito na liga · 3★ ataque: ataques que derrubaram a base · 3★ sofrido: bases do clã que caíram</p>`;
         }
 
         async function carregarGuerrasLiga(cla) {
