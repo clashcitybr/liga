@@ -992,6 +992,8 @@
             nav { padding: 0; }
         }
     </style>
+    <!-- Endereço do backend (BACKEND_URL) -->
+    <script src="config.js"></script>
     <!-- Ícones comuns (se não carregar, a página segue sem eles) -->
     <script src="https://clashcitybr.github.io/controle-cla/icones.js?v=1"></script>
     <script>window.ic = window.ic || function () { return ''; };</script>
@@ -1202,7 +1204,7 @@
     </footer>
 
     <script>
-        const BACKEND = "https://cork-dice-gala.ngrok-free.dev";
+        // BACKEND_URL vem de config.js
         const HEADERS = { 'ngrok-skip-browser-warning': 'true' };
 
         const linksCla = {
@@ -1244,7 +1246,7 @@
             carregarGuerrasLiga(cla);
 
             try {
-                const resp = await fetch(`${BACKEND}/cwl/${cla}`, { headers: HEADERS });
+                const resp = await fetch(`${BACKEND_URL}/cwl/${cla}`, { headers: HEADERS });
                 const dados = await resp.json();
 
                 if (!dados.membros || dados.membros.length === 0) {
@@ -1547,7 +1549,7 @@
             if (!alvo) return;
 
             try {
-                const resp = await fetch(`${BACKEND}/liga/guerras/${cla}`, { headers: HEADERS });
+                const resp = await fetch(`${BACKEND_URL}/liga/guerras/${cla}`, { headers: HEADERS });
                 if (!resp.ok) throw new Error(`Falha na API: ${resp.status}`);
                 const liga = await resp.json();
 
@@ -1619,7 +1621,7 @@
             if (!alvo) return;
             if (!historicoLista) {
                 try {
-                    const r = await fetch(`${BACKEND}/liga/historico`, { headers: HEADERS });
+                    const r = await fetch(`${BACKEND_URL}/liga/historico`, { headers: HEADERS });
                     historicoLista = r.ok ? await r.json() : [];
                 } catch (_) { historicoLista = []; }
             }
@@ -1650,7 +1652,7 @@
 
             const detalhe = document.getElementById('historicoLigaDetalhe');
             try {
-                const r = await fetch(`${BACKEND}/liga/historico/${escolhida}/${cla}`, { headers: HEADERS });
+                const r = await fetch(`${BACKEND_URL}/liga/historico/${escolhida}/${cla}`, { headers: HEADERS });
                 if (!r.ok) throw new Error(r.status);
                 const liga = await r.json();
                 if (cla !== claAtivo || historicoEscolhido[cla] !== escolhida) return;
@@ -1706,7 +1708,7 @@
             }
 
             try {
-                const resp = await fetch(`${BACKEND}/jogador/${encodeURIComponent(tag)}`, { headers: HEADERS });
+                const resp = await fetch(`${BACKEND_URL}/jogador/${encodeURIComponent(tag)}`, { headers: HEADERS });
                 const data = await resp.json();
                 document.getElementById('profNome').innerText = data.name || "Não encontrado";
                 document.getElementById('profTag').innerText = data.tag || tag;
@@ -1736,7 +1738,7 @@
       async function fazerLogin() {
     const senha = document.getElementById('adminSenha').value;
     try {
-        const resp = await fetch(`${BACKEND}/admin/verificar`, {
+        const resp = await fetch(`${BACKEND_URL}/admin/verificar`, {
             headers: { ...HEADERS, 'x-admin-key': senha }
         });
 
@@ -1761,7 +1763,7 @@
       const ROTULO_CLA = { principal: 'BR 1', cla2: 'BR 2', cla3: 'BR 3', parceiro: 'TOP 1' };
       async function carregarTodosMembros() {
     try {
-        const resp = await fetch(`${BACKEND}/membros-familia`, { headers: HEADERS });
+        const resp = await fetch(`${BACKEND_URL}/membros-familia`, { headers: HEADERS });
         const dados = await resp.json();
         const vistos = new Map();
         for (const c of dados.clas || []) {
@@ -1790,7 +1792,7 @@
         async function carregarConvocacoesAdmin() {
             for (const cla of ['principal', 'cla2', 'cla3', 'parceiro']) {
                 try {
-                    const resp = await fetch(`${BACKEND}/cwl/${cla}`, { headers: HEADERS });
+                    const resp = await fetch(`${BACKEND_URL}/cwl/${cla}`, { headers: HEADERS });
                     const dados = await resp.json();
                     selecaoAdmin[cla] = dados.membros ? dados.membros.map(m => m.tag) : [];
                     for (const m of dados.membros || []) {
@@ -1857,7 +1859,7 @@
             const msg = document.getElementById(`msg-${cla}`);
 
             try {
-                const resp = await fetch(`${BACKEND}/cwl/${cla}`, {
+                const resp = await fetch(`${BACKEND_URL}/cwl/${cla}`, {
                     method: 'POST',
                     headers: { ...HEADERS, 'Content-Type': 'application/json', 'x-admin-key': adminSenha },
                     body: JSON.stringify({ membros: selecaoAdmin[cla], tamanho })
@@ -1893,7 +1895,7 @@
         window.addEventListener('DOMContentLoaded', async () => {
             // Carrega membros do banco para o modal
             try {
-                const resp = await fetch(`${BACKEND}/membros`, { headers: HEADERS });
+                const resp = await fetch(`${BACKEND_URL}/membros`, { headers: HEADERS });
                 todosMembrosBanco = await resp.json();
             } catch (e) { }
 
